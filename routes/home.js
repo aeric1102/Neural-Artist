@@ -4,6 +4,7 @@ function transform_image(img_path, new_img_path){
         var new_width = Math.min(1024, img.bitmap.width)
         var new_height = Math.round(img.bitmap.height/img.bitmap.width*new_width)
         img.resize(new_width, new_height).write(new_img_path); // save
+        fs.unlinkSync(img_path);
     });
 }
 
@@ -12,7 +13,8 @@ var express = require("express"),
     router = express.Router(),
     upload = require("../middleware/upload"),
     path = require('path'),
-    Jimp = require("jimp");
+    Jimp = require("jimp"),
+    fs = require("fs");
 
 
 var contentImgPath = "#";
