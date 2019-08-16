@@ -17,11 +17,8 @@ var express = require("express"),
     fs = require("fs");
 
 
-var contentImgPath = "#";
-var resultImgPath = "#";
-var selectStyle = "wave";
 router.get("/", function(req, res){
-    res.render("home", {contentImgPath: contentImgPath, selectStyle: selectStyle, resultImgPath: resultImgPath});
+    res.render("home", {contentImgPath: "#", selectStyle: "wave", resultImgPath: "#"});
 });
 
 router.post("/upload", upload.single("selectContent"), function (req, res, next) {
@@ -33,8 +30,12 @@ router.post("/upload", upload.single("selectContent"), function (req, res, next)
         new_file_path = path.join(pathObj.dir, pathObj.name) + ".jpg";
         transform_image(req.file.path, new_file_path);
     }
-    contentImgPath = "data/contents/" + filename;
-    selectStyle = req.body.selectStyle;
+    var home_input = {
+        contentImgPath: "data/contents/" + filename,
+        selectStyle: req.body.selectStyle,
+        resultImgPath:  "./data/outputs/" + filename
+    }
+    
     var args = [
         "./evaluate.py",
         "--checkpoint",
@@ -59,9 +60,8 @@ router.post("/upload", upload.single("selectContent"), function (req, res, next)
     pythonProcess.on("close", function(code){
         // Do something with the data returned from python script
         //res.send(data.toString());
-        resultImgPath =  "./data/outputs/" + filename;
-        console.log("child exit with" + code);
-        res.redirect("/");
+        console.log("child exit with " + code);
+        res.render("home", home_input);
     });
 })
 

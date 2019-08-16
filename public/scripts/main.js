@@ -9,6 +9,7 @@ ContentInput.addEventListener("change", function(e){
     var reader = new FileReader();
     reader.onload = function(e){
         contentImg.src = e.target.result;
+        contentImg.classList.remove("d-none");
     };
     reader.readAsDataURL(file);
 });

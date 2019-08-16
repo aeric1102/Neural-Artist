@@ -3,7 +3,7 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container">
-            <h1>Hi, please upload some images</h1>
+            <h1>Stylize Your Image</h1>
         </div>
     </header>
 
@@ -12,7 +12,9 @@
             <div class="form-group col-sm-6">
                 <div class="card">
                     <div class="img_container">
-                        <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="img-fluid card-img-top">
+                        <% var image_display = (contentImgPath === "#") ? " d-none" : ""; %>
+                        <% var img_class = "img-fluid card-img-top" + image_display%>
+                        <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="<%= img_class %>">
                     </div>
                     <div class="card-body">
                         <input class="form-control" type="file" name="selectContent" id="selectContent">
@@ -28,7 +30,7 @@
                         <select class="form-control" name="selectStyle" id="selectStyle">
                             <% var options = [ "wave", "the_shipwreck_of_the_minotaur", "the_scream", "rain_princess", "la_muse", "udnie" ] %>                       
                             <% for(var i = 0; i < options.length; i++){ %>
-                                <% var selected = (selectStyle == options[i]) ? "selected" : ""; %>
+                                <% var selected = (selectStyle === options[i]) ? "selected" : ""; %>
                                 <option <%= selected %>><%= options[i] %></option>
                             <% }  %> 
                         </select>
