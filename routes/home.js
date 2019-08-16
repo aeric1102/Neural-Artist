@@ -21,7 +21,9 @@ router.get("/", function(req, res){
     res.render("home", {contentImgPath: "#", selectStyle: "wave", resultImgPath: "#"});
 });
 
-router.post("/upload", upload.single("selectContent"), function (req, res, next) {
+
+
+router.post("/", upload.single("selectContent"), function (req, res, next) {
     //console.log(req.file);
     var pathObj = path.parse(req.file.path);
     var filename = req.file.filename;
@@ -31,7 +33,7 @@ router.post("/upload", upload.single("selectContent"), function (req, res, next)
         transform_image(req.file.path, new_file_path);
     }
     var home_input = {
-        contentImgPath: "data/contents/" + filename,
+        contentImgPath: "./data/contents/" + filename,
         selectStyle: req.body.selectStyle,
         resultImgPath:  "./data/outputs/" + filename
     }

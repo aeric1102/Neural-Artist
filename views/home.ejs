@@ -7,7 +7,7 @@
         </div>
     </header>
 
-    <form id="img_stylize_form" class="" action="/upload" method="POST" enctype="multipart/form-data">
+    <form id="img_stylize_form" class="" action="/" method="POST" enctype="multipart/form-data">
         <div class="form-row">
             <div class="form-group col-lg-6">
                 <div class="card">
@@ -17,7 +17,10 @@
                         <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="<%= img_class %>">
                     </div>
                     <div class="card-body">
-                        <input class="form-control" type="file" name="selectContent" id="selectContent">
+                        <label class="form-control btn btn-outline-secondary">
+                            <input class="form-control d-none" type="file" name="selectContent" id="selectContent" required>
+                            Choose File
+                        </label>
                     </div>
                 </div>
             </div>
