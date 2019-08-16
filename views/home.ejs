@@ -26,6 +26,20 @@
                     </div>
                     <div class="card-body">
                         <select class="form-control" name="selectStyle" id="selectStyle">
+                            <% var options = [ "wave", "the_shipwreck_of_the_minotaur", "the_scream", "rain_princess", "la_muse", "udnie" ] %>
+                                
+                            <% for(var i = 0; i < options.length; i++){ %>
+                                <% var selected = (config[0].volume == i) ? "selected" : ""; %>
+                                <option>wave</option>
+                            <% }  %> 
+                            <%
+var options = [ "1", "5", "10", "50", "75", "100" ];
+for ( var i = 0; i < options.length; i++ )
+{
+    var selected = ( config[0].volume == i ) ? "selected" : "";
+    %><option value="<%=options[ i ] %>" <%=selected %>><%=i %></option><%
+}
+%>
                           <option>wave</option>
                           <option>the_shipwreck_of_the_minotaur</option>
                           <option>the_scream</option>
