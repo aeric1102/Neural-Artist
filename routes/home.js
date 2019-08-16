@@ -19,8 +19,9 @@ var express = require("express"),
 
 var contentImgPath = "#";
 var resultImgPath = "#";
+var selectStyle = "wave";
 router.get("/", function(req, res){
-    res.render("home", {contentImgPath: contentImgPath, resultImgPath: resultImgPath});
+    res.render("home", {contentImgPath: contentImgPath, selectStyle: selectStyle, resultImgPath: resultImgPath});
 });
 
 router.post("/upload", upload.single("selectContent"), function (req, res, next) {
@@ -33,6 +34,7 @@ router.post("/upload", upload.single("selectContent"), function (req, res, next)
         transform_image(req.file.path, new_file_path);
     }
     contentImgPath = "data/contents/" + filename;
+    selectStyle = req.body.selectStyle;
     var args = [
         "./evaluate.py",
         "--checkpoint",
