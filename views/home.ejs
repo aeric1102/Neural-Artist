@@ -46,9 +46,11 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <div class="text-center">
-                <img id="resultImg" src="<%= resultImgPath %>" alt="..." class="img-fluid">
-            </div>
+            <% if (resultImgPath !== "#"){ %>
+                <div class="text-center">
+                    <img id="resultImg" src="<%= resultImgPath %>" alt="..." class="img-fluid">
+                </div>
+            <% } %>
         </div>
     </div>
 </div>
