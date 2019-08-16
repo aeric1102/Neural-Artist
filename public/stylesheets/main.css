@@ -1,0 +1,16 @@
+html {
+    margin-bottom: 5rem;
+}
+.jumbotron {
+    margin-top: 2rem;
+}
+
+.img_container {
+  width: 100%;
+  height: 300px;
+}
+img {
+  width: 100% !important;
+  height: 100% !important;;
+  object-fit: cover;
+}
