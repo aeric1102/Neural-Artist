@@ -49,11 +49,11 @@ router.post("/upload", upload.single("selectContent"), function (req, res, next)
         //res.send(data.toString());
         console.log(data.toString());
     });
-    // pythonProcess.stderr.on("data", function(data){
-    //     // Do something with the data returned from python script
-    //     //res.send(data.toString());
-    //     console.log(data.toString());
-    // });
+    pythonProcess.stderr.on("data", function(data){
+        // Do something with the data returned from python script
+        //res.send(data.toString());
+        console.log(data.toString());
+    });
     pythonProcess.on("close", function(code){
         // Do something with the data returned from python script
         //res.send(data.toString());
