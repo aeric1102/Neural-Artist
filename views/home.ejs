@@ -1,20 +1,18 @@
 <% include ./partials/header %>
 
-<div class="container">
-    <header class="jumbotron">
-        <div class="container">
-            <h1>Stylize Your Image</h1>
-        </div>
-    </header>
+<div class="jumbotron">
+    <div class="container">
+        <h2><i class="fas fa-paint-brush"></i> Stylize Your Image </h1>
+    </div>
+</div>
 
+<div class="container">
     <form id="img_stylize_form" class="" action="/" method="POST" enctype="multipart/form-data">
         <div class="form-row">
             <div class="form-group col-lg-6">
                 <div class="card">
                     <div class="img_container">
-                        <% var image_display = (contentImgPath === "#") ? " d-none" : ""; %>
-                        <% var img_class = "img-fluid card-img-top" + image_display%>
-                        <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="<%= img_class %>">
+                        <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="img-fluid card-img-top">
                     </div>
                     <div class="card-body">
                         <label class="form-control btn btn-outline-secondary">

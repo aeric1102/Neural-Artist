@@ -18,7 +18,8 @@ var express = require("express"),
 
 
 router.get("/", function(req, res){
-    res.render("home", {contentImgPath: "#", selectStyle: "wave", resultImgPath: "#"});
+    res.render("home", {contentImgPath: "./stylesheets/image-placeholder.jpg", 
+        selectStyle: "wave", resultImgPath: "#"});
 });
 
 
