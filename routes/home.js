@@ -41,6 +41,7 @@ router.get("/", function(req, res){
 
 
 router.post("/", upload.single("selectContent"), function (req, res, next) {
+    var st = new Date()
     //console.log(req.file);
     var pathObj = path.parse(req.file.path);
     var filename = req.file.filename;
@@ -78,6 +79,8 @@ router.post("/", upload.single("selectContent"), function (req, res, next) {
     });
 
     client.on('close', function() {
+        var request_time = Math.round((new Date()-st)*1000) / 1000000
+        console.log("Request Time: " + request_time);
         res.render("home", home_input);
     });
 

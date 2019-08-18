@@ -1,4 +1,3 @@
 TensorFlow
 Pillow
-scipy
 numpy

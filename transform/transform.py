@@ -1,7 +1,7 @@
-import os
 import tensorflow as tf
-import tensorflow.python.util.deprecation as deprecation
+from tensorflow.python.util import deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
+import os
 import numpy as np
 import time
 import socket
@@ -23,9 +23,9 @@ def save_img(out_path, img):
 def transform(sess, model_path, input_path, output_path):
     # Load model
     meta_graph_def = tf.saved_model.loader.load(
-             sess,
-            [tf.saved_model.SERVING],
-            model_path)
+        sess,
+        [tf.saved_model.SERVING],
+        model_path)
     signature = meta_graph_def.signature_def
     signature_key = tf.saved_model.DEFAULT_SERVING_SIGNATURE_DEF_KEY
     input_key = 'x'
@@ -39,6 +39,7 @@ def transform(sess, model_path, input_path, output_path):
     x_input = np.expand_dims(x_input, 0)
     y_out = sess.run(y, feed_dict={x: x_input})
     save_img(output_path, y_out[0])
+    tf.reset_default_graph()
     return
 
 def main():
