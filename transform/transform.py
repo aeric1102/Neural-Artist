@@ -5,6 +5,7 @@ import os
 import numpy as np
 import time
 import socket
+import sys
 from PIL import Image
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -60,9 +61,12 @@ def main():
             data = conn.recv(1024)
             args = data.decode('ascii').split("$")
             st = time.time()
-            transform(sess, *args)
-            message = "Completed. Load and predict time: {:.3f}".format(time.time() - st)
-            conn.sendall(message.encode("ascii"))
+            try:
+                transform(sess, *args)
+                message = "Completed. Load and predict time: {:.3f}".format(time.time() - st)
+                conn.sendall(message.encode("ascii"))
+            except Exception as e:
+                sys.stderr.write(e)
         finally:
             conn.close()
     return 0
