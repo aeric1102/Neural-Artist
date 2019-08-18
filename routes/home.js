@@ -8,14 +8,30 @@ function transform_image(img_path, new_img_path){
     });
 }
 
+function cretae_process(){
+    const spawn = require("child_process").spawn;
+    const transform = spawn("python", ["./transform/transform.py"]);
+    transform.stdout.on("data", function(data){
+        console.log(data.toString());
+    });
+    transform.stderr.on("data", function(data){
+        console.log(data.toString());
+    });
+    transform.on("close", function(code){
+        console.log("child exit with " + code);
+    });
+}
+
 
 var express = require("express"),
     router = express.Router(),
     upload = require("../middleware/upload"),
     path = require('path'),
     Jimp = require("jimp"),
-    fs = require("fs");
+    fs = require("fs"),
+    net = require('net');
 
+cretae_process()
 
 router.get("/", function(req, res){
     res.render("home", {contentImgPath: "./stylesheets/image-placeholder.jpg", 
@@ -39,33 +55,32 @@ router.post("/", upload.single("selectContent"), function (req, res, next) {
         resultImgPath:  "./data/outputs/" + filename
     }
     
-    var args = [
-        "./evaluate.py",
-        "--checkpoint",
-        "./models/" + req.body.selectStyle + ".ckpt",
-        "--in-path",
-        "../public/data/contents/" + filename,
-        "--out-path",
-        "../public/data/outputs/" + filename
-    ]
-    const spawn = require("child_process").spawn;
-    const pythonProcess = spawn("python", args, {cwd:"./fast-style-transfer-master/"});
-    pythonProcess.stdout.on("data", function(data){
-        // Do something with the data returned from python script
-        //res.send(data.toString());
-        console.log(data.toString());
+    input = (
+        "./transform/models/" + req.body.selectStyle + "$" +
+        "./public/data/contents/" + filename + "$" +
+        "./public/data/outputs/" + filename
+    )
+    var client = new net.Socket();
+    client.connect(9527, '127.0.0.1', function() {
+        console.log("Start transform");
+        client.write(input);
     });
-    pythonProcess.stderr.on("data", function(data){
-        // Do something with the data returned from python script
-        //res.send(data.toString());
-        console.log(data.toString());
-    });
-    pythonProcess.on("close", function(code){
-        // Do something with the data returned from python script
-        //res.send(data.toString());
-        console.log("child exit with " + code);
+
+    client.on('error', function(data) {
+        console.log("Connection Refused");
+        home_input.resultImgPath = "error";
         res.render("home", home_input);
     });
+
+    client.on('data', function(data) {
+        console.log(data.toString('ascii'));
+        client.destroy(); // kill client after server's response
+    });
+
+    client.on('close', function() {
+        res.render("home", home_input);
+    });
+
 })
 
 module.exports = router;

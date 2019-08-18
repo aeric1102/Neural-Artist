@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary btn-block">Submit!</button>
+            <button id="submitBtn" class="btn btn-primary btn-block">Submit!</button>
         </div>
     </form>
     <hr>
@@ -49,7 +49,11 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <% if (resultImgPath !== "#"){ %>
+            <% if (resultImgPath === "error"){ %>
+                <div class="text-center">
+                    <p>System is busy, please try again later!</p>
+                </div>
+            <% } else if (resultImgPath !== "#"){ %>
                 <div class="text-center">
                     <img id="resultImg" src="<%= resultImgPath %>" alt="..." class="img-fluid">
                 </div>
