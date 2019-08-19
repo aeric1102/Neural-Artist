@@ -6,6 +6,7 @@ import numpy as np
 import time
 import socket
 import sys
+import gc
 from PIL import Image
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -43,6 +44,7 @@ def transform(model_path, input_path, output_path):
         y_out = sess.run(y, feed_dict={x: x_input})
         save_img(output_path, y_out[0])
     tf.compat.v1.reset_default_graph()
+    gc.collect()
     return
 
 def main():
