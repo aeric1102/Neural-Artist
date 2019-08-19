@@ -70,6 +70,7 @@ def main():
                 sys.stderr.write(e)
         finally:
             conn.close()
+            return 0
     return 0
 
 if __name__ == '__main__':
