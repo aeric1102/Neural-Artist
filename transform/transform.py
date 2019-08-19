@@ -21,7 +21,7 @@ def save_img(out_path, img):
     img = np.clip(img, 0, 255).astype(np.uint8)
     Image.fromarray(img).save(out_path)
 
-def transform(sess, model_path, input_path, output_path):
+def transform(model_path, input_path, output_path):
     # Load model
     config = tf.compat.v1.ConfigProto(device_count = {'GPU': 0})
     with tf.compat.v1.Session(config=config) as sess:
@@ -46,9 +46,6 @@ def transform(sess, model_path, input_path, output_path):
     return
 
 def main():
-    # Tensorflow config
-    #config = tf.compat.v1.ConfigProto(device_count = {'GPU': 0})
-    #sess = tf.compat.v1.Session(config=config)
     # Use socket to serve transform request from node.js
     HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
     PORT = 9527        # Port to listen on (non-privileged ports are > 1023)
@@ -64,7 +61,7 @@ def main():
             args = data.decode('ascii').split("$")
             st = time.time()
             try:
-                transform(None, *args)
+                transform(*args)
                 message = "Completed. Load and predict time: {:.3f}".format(time.time() - st)
                 conn.sendall(message.encode("ascii"))
             except Exception as e:
@@ -75,3 +72,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
