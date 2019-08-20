@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow.python.util import deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
 import os
+import threading
 import numpy as np
 import time
 import socket
@@ -24,10 +25,11 @@ def save_img(out_path, img):
 
 def transform(model_path, input_path, output_path):
     # Load model
-    config = tf.compat.v1.ConfigProto(
-        device_count = {'GPU': 0}, 
-        inter_op_parallelism_threads=2,
-        intra_op_parallelism_threads=2)
+    # config = tf.compat.v1.ConfigProto(
+    #     device_count = {'GPU': 0}, 
+    #     inter_op_parallelism_threads=2,
+    #     intra_op_parallelism_threads=2)
+    config = tf.compat.v1.ConfigProto(device_count = {'GPU': 0})
     with tf.compat.v1.Session(config=config) as sess:
         meta_graph_def = tf.saved_model.loader.load(
             sess,
@@ -66,7 +68,10 @@ def main():
             args = data.decode('ascii').split("$")
             st = time.time()
             try:
-                transform(*args)
+                p = threading.Thread(target=transform, args=args)
+                p.start()
+                p.join()
+                #transform(*args)
                 message = "Completed. Load and predict time: {:.3f}".format(time.time() - st)
                 conn.sendall(message.encode("ascii"))
             except Exception as e:
