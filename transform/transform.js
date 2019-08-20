@@ -30,7 +30,7 @@ function convertImage(img_path, new_img_path){
 }
 
 async function transformImage(file_path, selectStyle){
-    await cretaePythonProcess();
+    var port = await cretaePythonProcess();
     var st = new Date()
     var pathObj = path.parse(file_path);
     var filename = pathObj.name + pathObj.ext;
@@ -46,7 +46,7 @@ async function transformImage(file_path, selectStyle){
     }
     
     var client = new net.Socket();
-    client.connect(9527, '127.0.0.1', function() {
+    client.connect(port, '127.0.0.1', function() {
         console.log("Start transform");
         var py_input = (
             "./transform/models/" + selectStyle + "$" +
@@ -80,8 +80,8 @@ function cretaePythonProcess(){
     var promise = new Promise(resolve => {
         transform.stdout.on("data", function(data){
             console.log(data.toString());
-            if (data.toString().trim() === "Python start listening"){
-                resolve()
+            if (data.toString().includes("Python start listening on port ")){
+                resolve(parseInt(data.toString().substr(31)));
             }
         });
         transform.stderr.on("data", function(data){
@@ -89,7 +89,7 @@ function cretaePythonProcess(){
         });
         transform.on("close", function(code){
             console.log("child exit with " + code);
-            resolve()
+            resolve(-1)
         });
     });
     return promise

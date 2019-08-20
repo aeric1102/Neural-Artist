@@ -53,9 +53,9 @@ def main():
     PORT = 9527        # Port to listen on (non-privileged ports are > 1023)
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((HOST, PORT))
+    sock.bind((HOST, 0))
     sock.listen(3)
-    print("Python start listening", flush=True)
+    print("Python start listening on port " + str(sock.getsockname()[1]), flush=True)
     while True:
         try:
             conn, addr = sock.accept()
