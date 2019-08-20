@@ -24,8 +24,10 @@ def save_img(out_path, img):
 
 def transform(model_path, input_path, output_path):
     # Load model
-    config = tf.compat.v1.ConfigProto(device_count = {'GPU': 0}, inter_op_parallelism_threads=1,
-                   intra_op_parallelism_threads=1)
+    config = tf.compat.v1.ConfigProto(
+        device_count = {'GPU': 0}, 
+        inter_op_parallelism_threads=2,
+        intra_op_parallelism_threads=2)
     with tf.compat.v1.Session(config=config) as sess:
         meta_graph_def = tf.saved_model.loader.load(
             sess,
