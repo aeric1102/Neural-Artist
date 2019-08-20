@@ -30,8 +30,7 @@ function convertImage(img_path, new_img_path){
 }
 
 async function transformImage(file_path, selectStyle){
-    //var port = await cretaePythonProcess();
-    var port = await cretaePythonPromise;
+    var port = await createPythonPromise;
     var st = new Date()
     var pathObj = path.parse(file_path);
     var filename = pathObj.name + pathObj.ext;
@@ -75,7 +74,7 @@ async function transformImage(file_path, selectStyle){
     return promise
 }
 
-function cretaePythonProcess(){
+function createPythonProcess(){
     const spawn = require("child_process").spawn;
     const transform = spawn("python", ["./transform/transform.py"]);
     var promise = new Promise(resolve => {
@@ -102,7 +101,5 @@ var path = require('path'),
     net = require('net');
 
 var IMAGE_MAX_SIZE = 1024;  // max(width, height)
-
-var cretaePythonPromise = cretaePythonProcess();
-
+var createPythonPromise = createPythonProcess();
 module.exports = transformImage;
