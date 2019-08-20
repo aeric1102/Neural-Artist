@@ -50,7 +50,7 @@ def transform(model_path, input_path, output_path):
 def main():
     # Use socket to serve transform request from node.js
     HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
-    PORT = 9527        # Port to listen on (non-privileged ports are > 1023)
+    #PORT = 9527        # Port to listen on (non-privileged ports are > 1023)
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((HOST, 0))
@@ -70,8 +70,8 @@ def main():
                 sys.stderr.write(e)
         finally:
             conn.close()
-            sock.close()
-            return 0
+            # sock.close()
+            # return 0
     return 0
 
 if __name__ == '__main__':
