@@ -70,6 +70,7 @@ def main():
                 sys.stderr.write(e)
         finally:
             conn.close()
+            sock.close()
             return 0
     return 0
 
