@@ -1,0 +1,63 @@
+.jumbotron {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: white;
+    text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
+}
+
+.container-square {
+    position: relative;
+    height: 0;
+    padding-bottom: 100%;
+}
+
+.container-16-9 {
+    position: relative;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+.container-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card {
+    position: relative;
+    height: 0;
+    padding-bottom: 63%;
+}
+
+.style-block {
+    position: absolute;
+    overflow: auto;
+    height: 100%; 
+    width: 100%;
+}
+
+#selectContent {
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.selectStyle {
+    opacity: 0;
+}
+
+
+.container-square {
+    background-color: black;
+}
+
+.selectStyle:checked + label {
+    opacity: 0.6;
+}
+
+

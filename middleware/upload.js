@@ -10,5 +10,17 @@ var storage = multer.diskStorage({
     }
 });
 
-var upload = multer({storage: storage});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/i)) {
+        return cb(null, false);
+    }
+    cb(null, true);
+};
+var limits = {
+    fileSize: 20 * 1024 * 1024 // 20MB
+};
+
+
+var upload = multer({storage: storage, fileFilter: imageFilter, limits: limits});
 module.exports = upload;

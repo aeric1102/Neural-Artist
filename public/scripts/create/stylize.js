@@ -1,7 +1,5 @@
 var contentImg = document.querySelector("#contentImg");
 var ContentInput = document.querySelector("#selectContent");
-var styleImg = document.querySelector("#styleImg");
-var styleInput = document.querySelector("#selectStyle");
 var img_stylize_form = document.querySelector("#img_stylize_form");
 var spinner = document.querySelector("#loading_spinner");
 var submitBtn = document.querySelector("#submitBtn");
@@ -17,10 +15,15 @@ ContentInput.addEventListener("change", function(e){
     reader.readAsDataURL(file);
 });
 
-styleImg.src = "./data/styles/" + styleInput.value + ".jpg";
-styleInput.addEventListener("change", function(){
-    styleImg.src = "./data/styles/" + styleInput.value + ".jpg";
-});
+var styleInputs = document.querySelectorAll(".selectStyle");
+styleInputs.forEach(function(input){
+    var label = document.querySelector("label[for="+ input.id + "]");
+    var img_path = "/data/styles/" + input.value + ".jpg"
+    label.style.backgroundImage = "url(" + img_path + ")";
+    label.style.backgroundSize= "cover";
+})
+
+
 
 spinner.style.display = "none";
 img_stylize_form.addEventListener("submit", function(e){

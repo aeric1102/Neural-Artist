@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neural Artist</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/stylesheets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/stylesheets/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/stylesheets/explore/index.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<% include ../partials/navbar %>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="row">
+                <% posts.forEach(function(post){ %>
+                    <div class="col-4 p-2">
+                        <div class="m-0 container-square">
+                            <img src="<%= post.resultImg %>" class="container-content">
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<% include ../partials/footer %>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neural Artist</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/stylesheets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/stylesheets/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/stylesheets/create/stylize.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<% include ../partials/navbar %>
+<% if(error && error.length > 0){ %>
+    <div class="alert alert-danger" role="alert">
+        <%= error %>
+    </div>
+<% } %>
+
+
+
+<div class="jumbotron">
+    <div class="container">
+        <h2><i class="fas fa-paint-brush"></i> Stylize Your Image </h1>
+    </div>
+</div>
+
+<div class="container">
+    <form id="img_stylize_form" action="/create" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="form-group col-lg-6 mb-3 mb-lg-0">
+                <div class="card">
+                    <div class="container-16-9">
+                        <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="container-content card-img-top">
+                    </div>
+                    <div class="card-body p-0">
+                        <label class="form-control btn btn-secondary m-0">
+                            Choose File
+                            <input class="form-control" type="file" name="selectContent" id="selectContent" accept="image/*" required>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-lg-6 mt-3 mt-lg-0">
+                <div class="card">
+                    <div class="style-block">
+                        <div class="row m-0">
+                            <% var options = [ "wave", "the_shipwreck_of_the_minotaur", "the_scream", "rain_princess", "la_muse", "udnie" ] %>
+                            <% for(var i = 0; i < options.length; i++){ %>
+                                <div class="col-6 p-2">
+                                    <div class="container-square">
+                                        <% var img_path = "data/styles/" + options[i] + ".jpg" %>
+                                        <input class="selectStyle" type="radio" name="selectStyle" value="<%= options[i] %>" id="<%= options[i]+"_" %>" required>
+                                        <label class="container-content" for="<%= options[i]+"_" %>"></label>
+                                    </div>
+                                </div>
+                            <% }  %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button id="submitBtn" class="btn btn-primary btn-block">Submit!</button>
+        </div>
+    </form>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <div id="loading_spinner" class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <% if (stateMessage === "success"){ %>
+                <div class="text-center">
+                    <img id="resultImg" src="<%= resultImgPath %>" alt="..." class="img-fluid">
+                </div>
+            <% } else if (stateMessage !== "none"){ %>
+                <div class="text-center">
+                    <p><%= stateMessage %></p>
+                </div>
+            <% } else %>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/scripts/create/stylize.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

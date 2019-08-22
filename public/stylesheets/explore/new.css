@@ -1,0 +1,39 @@
+.jumbotron {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: white;
+    text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
+}
+.container-square {
+    position: relative;
+    height: 0;
+    padding-bottom: 100%;
+}
+.container-16-9 {
+    position: relative;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+.container-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid #dee2e6;
+}
+@media only screen and (min-width: 992px) {
+    .container-square {
+        position: relative;
+        height: 0;
+        padding-bottom: 12.5vw;
+    }
+    .container-16-9 {
+        position: relative;
+        height: 0;
+        padding-bottom: 25vw;
+    }
+}

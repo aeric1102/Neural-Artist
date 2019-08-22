@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neural Artist</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/stylesheets/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/stylesheets/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/stylesheets/explore/new.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<% include ../partials/navbar %>
+<% if(error && error.length > 0){ %>
+    <div class="alert alert-danger" role="alert">
+        <%= error %>
+    </div>
+<% } %>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2><i class="fas fa-paint-brush"></i> Share Your Image </h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 p-1 border rounded">
+            <div class="row m-0">
+                <div class="col-12 col-lg-3 p-0">
+                    <div class="row m-0">
+                        <div class="col-6 col-lg-12 p-0">
+                            <div class="container-square">
+                                <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="container-content">
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-12 p-0">
+                            <div class="container-square">
+                                <% var img_path = "/data/styles/" + selectStyle + ".jpg" %>
+                                <img id="styleImg" src="<%= img_path %>" alt="..." class="container-content">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9 p-0">
+                    <div class="container-16-9">
+                        <img id="resultImg" src="<%= resultImgPath %>" alt="..." class="container-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8 p-0">
+            <form action="/explore" method="POST">
+                <input type="hidden" name="contentImgPath" value="<%= contentImgPath %>">
+                <input type="hidden" name="selectStyle" value="<%= selectStyle %>">
+                <input type="hidden" name="resultImgPath" value="<%= resultImgPath %>">
+                <textarea class="form-control" name="description" rows="10"></textarea>
+                <button id="submitBtn" class="mt-1 btn btn-primary btn-block">Share!</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>
