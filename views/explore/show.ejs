@@ -9,8 +9,9 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-8 p-1 border border-bottom-0">
-            <div class="row m-0">
+        <div class="col-12 col-lg-8 p-0">
+            <!-- Image -->
+            <div class="row m-0 p-1 border">
                 <div class="col-12 col-lg-9 p-0">
                     <div class="container-16-9">
                         <img id="resultImg" src="<%= post.resultImg %>" class="container-content p-1">
@@ -32,41 +33,47 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-lg-8 p-0">
-            <div class="card border rounded-0">
-              <div class="card-body">
-                <h2 class="card-title">
-                    <img class="avatar mr-3 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
-                    <%= post.author.username %>
-                </h2>
-                <p class="card-text">
-                    <%= post.description %>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
-                </p>
-                <!-- <a href="#" class="card-link">Like</a> -->
-                <form class="form" action="/explore/<%= post._id %>" method="POST">
-                    <div class="form-row">
-                        <div class="col-10 p-0">
-                            <input class="form-control comment" type="text" name="comment" placeholder="Write a comment"></input>
+            <!-- Body -->
+            <div class="card border border-top-0 rounded-0">
+                <div class="card-body">
+                    <!-- Post, image description -->
+                    <h2 class="card-title">
+                        <img class="avatar-lg mr-0 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
+                        <%= post.author.username %>
+                    </h2>
+                    <p class="card-text">
+                        <%= post.description %>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
+                    </p>
+                    <hr>
+                    <!-- Comment -->
+                    <% if (!currentUser){ %>
+                        <a href="/login" class="btn btn-primary btn-block">Login to write a comment!</a>
+                    <% } else{ %>
+                        <!-- <a href="#" class="card-link">Like</a> -->
+                        <div class="form-row">
+                            <div class="col-12 p-0">
+                                <div class="d-flex align-items-center">
+                                    <textarea id="comment_input" class="form-control" name="comment" placeholder="Write a comment" rows="1" required></textarea>
+                                    <div id="comment_submit_btn_container">
+                                        <button id="comment_submit_btn" class="align-self-center btn btn-secondary" type="submit" disabled>Post</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-2 px-1">
-                            <button class="btn btn-secondary" type="submit">Post</button>
-                        </div>
-                    </div>
-                </form>
-                <ul id="comment_list" class="list-unstyled mt-3">
-                    <% post.comments.forEach(function(comment){ %>
-                        <li class="media my-3">
-                        <img class="avatar mr-3 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
-                        <div class="media-body">
-                          <h6 class="mt-0 mb-1"><%= comment.author.username %></h5>
-                          <p><%= comment.text %></p>
-                        </div>
-                        </li>
-                    <% }) %>
-                </ul>
-              </div>
+                    <% } %>
+                    <ul id="comment_list" class="list-unstyled mt-3">
+                        <% post.comments.forEach(function(comment){ %>
+                            <li class="media my-3">
+                                <img class="avatar mr-3 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
+                                <div class="media-body">
+                                  <h6 class="mt-0 mb-1"><%= comment.author.username %></h6>
+                                  <p><%= comment.text %></p>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@
             <div class="form-group col-lg-6 mb-3 mb-lg-0">
                 <div class="card">
                     <div class="container-16-9">
-                        <img id="contentImg" src="<%= contentImgPath %>" alt="..." class="container-content card-img-top">
+                        <img id="contentImg" src="/stylesheets/image-placeholder.jpg" alt="..." class="container-content card-img-top">
                     </div>
                     <div class="card-body p-0">
                         <label class="form-control btn btn-secondary m-0">
@@ -60,15 +60,6 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <% if (stateMessage === "success"){ %>
-                <div class="text-center">
-                    <img id="resultImg" src="<%= resultImgPath %>" alt="..." class="img-fluid">
-                </div>
-            <% } else if (stateMessage !== "none"){ %>
-                <div class="text-center">
-                    <p><%= stateMessage %></p>
-                </div>
-            <% } else %>
         </div>
     </div>
 </div>

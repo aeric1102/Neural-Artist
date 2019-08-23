@@ -5,14 +5,6 @@ var express = require("express"),
     cloudinary = require("cloudinary").v2;
     transformImage = require("../transform/transform");
 
-var defaultImgData = {
-    page: "create",
-    stateMessage: "none",
-    contentImgPath: "/stylesheets/image-placeholder.jpg", 
-    selectStyle: "wave", 
-    resultImgPath: "#"
-}
-
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -21,64 +13,59 @@ cloudinary.config({
 
 router.get("/", function(req, res){
     req.session.current_url = req.originalUrl;
-    var imgData = req.flash("imgData")[0];
-    if (!imgData){
-        res.render("create/stylize", defaultImgData);
-    }
-    else{
-        res.render("create/stylize", imgData);   
-    };
+    res.render("create/stylize", {page: "create"});
 });
 
 router.post("/", upload.single("selectContent"), async function (req, res, next) {
     if (req.file == null){ // invalid file
-        req.flash("imgData", {
-            page: "create",
-            stateMessage: "Only images (jpg or png) are allowed!",
-            contentImgPath: "/stylesheets/image-placeholder.jpg",
-            selectStyle: "wave",
-            resultImgPath: "#"
-        });
+        req.flash("error", "Only images (jpg or png) are allowed!");
         res.redirect("/create");
         return
     }
-    var imgData = await transformImage(req.file.path, req.body.selectStyle);
-    if (imgData.stateMessage !== "success"){
-        req.flash("imgData", imgData)
-        res.redirect("/create");
+    try{
+        var imgData = await transformImage(req.file.path, req.body.selectStyle);
+    } catch(e){
+        if (e === "System is busy, please try again later!"){
+            req.flash("error", e);
+            res.redirect("/create");
+        }
+        else{
+            // Perhaps, Jimp error or python process error
+            req.flash("error", "Sorry, something went wrong.");
+            res.redirect("/create");
+        }
+        return;
     }
-    else{
-        contentImgPath = "./public/" + imgData.contentImgPath
-        resultImgPath = "./public/" + imgData.resultImgPath
-        cloudinary.uploader.upload(contentImgPath, {folder: "neuralartist/contentImg/"}, 
-            function(err, result) {
+    contentImg = "./public/" + imgData.contentImg
+    resultImg = "./public/" + imgData.resultImg
+    cloudinary.uploader.upload(contentImg, {folder: "neuralartist/contentImg/"}, 
+        function(err, result) {
+            if(err){
+                req.flash("error", err.message);
+                return res.redirect("/create");
+            }
+            imgData.contentImg = result.secure_url
+            fs.unlink(contentImg, err => {
                 if(err){
-                    req.flash("error", err.message);
-                    return res.redirect("/create");
+                    console.log("delete file error");
                 }
-                imgData.contentImgPath = result.secure_url
-                fs.unlink(contentImgPath, err => {
+            });
+            cloudinary.uploader.upload(resultImg, {folder: "neuralartist/resultImg/"}, 
+                function(err, result) {
                     if(err){
-                        console.log("delete file error");
+                        req.flash("error", err.message);
+                        return res.redirect("/create");
                     }
-                });
-                cloudinary.uploader.upload(resultImgPath, {folder: "neuralartist/resultImg/"}, 
-                    function(err, result) {
+                    imgData.resultImg = result.secure_url
+                    fs.unlink(resultImg, err => {
                         if(err){
-                            req.flash("error", err.message);
-                            return res.redirect("/create");
+                            console.log("delete file error");
                         }
-                        imgData.resultImgPath = result.secure_url
-                        fs.unlink(resultImgPath, err => {
-                            if(err){
-                                console.log("delete file error");
-                            }
-                        });
-                        req.flash("imgData", imgData)
-                        res.redirect("/explore/new");
-                });
-        });
-    }
+                    });
+                    req.flash("imgData", imgData)
+                    res.redirect("/explore/new");
+            });
+    });
 })
 
 module.exports = router;

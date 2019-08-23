@@ -1,6 +1,6 @@
 function convertImage(imgPath, newImgPath){
     // Convert to jpg and resize
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         Jimp.read(imgPath)
             .then(img => {
                 if (imgPath === newImgPath 
@@ -29,13 +29,18 @@ function convertImage(imgPath, newImgPath){
                 resolve();
             })
             .catch(err => {
-                console.error(err);
+                console.log(err);
+                reject(err);
             });   
     });
 }
 
 async function transformImage(filePath, selectStyle){
-    var port = await createPythonPromise;
+    try{
+        var port = await createPythonPromise;
+    } catch(e){
+        return Promise.reject(e)
+    }
     var st = new Date()
     var pathObj = path.parse(filePath);
     var filename = pathObj.name + pathObj.ext;
@@ -43,12 +48,15 @@ async function transformImage(filePath, selectStyle){
         filename = pathObj.name + ".jpg";
     }
     var newFilePath = path.join(pathObj.dir, pathObj.name) + ".jpg";
-    await convertImage(filePath, newFilePath);
-    var output = {
-        page: "create",
-        contentImgPath: "./data/contents/" + filename,
+    try{
+        await convertImage(filePath, newFilePath);
+    } catch(e){
+        return Promise.reject(e)
+    }
+    var imgData = {
+        contentImg: "./data/contents/" + filename,
         selectStyle: selectStyle,
-        resultImgPath:  "./data/outputs/" + filename
+        resultImg:  "./data/outputs/" + filename
     }
     
     var client = new net.Socket();
@@ -65,17 +73,15 @@ async function transformImage(filePath, selectStyle){
         console.log(data.toString('ascii'));
         client.destroy(); // kill client after server's response
     });
-    var promise = new Promise(resolve => {
+    var promise = new Promise((resolve, reject) => {
         client.on('error', function(data) {
             console.log("Connection Refused");
-            output.stateMessage = "System is busy, please try again later!";
-            resolve(output)
+            reject("System is busy, please try again later!");
         });
         client.on('close', function() {
             var requestTime = Math.round((new Date()-st)*1000) / 1000000
             console.log("Request Time: " + requestTime);
-            output.stateMessage = "success";
-            resolve(output)
+            resolve(imgData)
         });
     })
     return promise
@@ -84,7 +90,7 @@ async function transformImage(filePath, selectStyle){
 function createPythonProcess(){
     const spawn = require("child_process").spawn;
     const transform = spawn("python", ["./transform/transform.py"]);
-    var promise = new Promise(resolve => {
+    var promise = new Promise((resolve, reject) => {
         transform.stdout.on("data", function(data){
             console.log(data.toString());
             if (data.toString().includes("Python start listening on port ")){
@@ -95,8 +101,8 @@ function createPythonProcess(){
             console.log(data.toString());
         });
         transform.on("close", function(code){
-            console.log("child exit with " + code);
-            resolve(-1)
+            console.log("python process exit with " + code);
+            reject(new Error("python process exit with " + code));
         });
     });
     return promise

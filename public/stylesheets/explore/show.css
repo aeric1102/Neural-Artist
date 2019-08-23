@@ -29,12 +29,13 @@
     }
 }
 
-.avatar {
-    width: 32px;
-    height: 32px;
+#comment_submit_btn_container {
+    position: absolute;
+    display: flex;
+    right: 0;
+    background: white;
 }
 
-.card-title .avatar {
-    width: 40px;
-    height: 40px;
+#comment_input {
+    margin-right: 56px;
 }

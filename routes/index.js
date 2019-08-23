@@ -5,7 +5,7 @@ var express = require("express"),
 
 
 router.get("/", function(req, res){
-    res.redirect("/create");
+    res.redirect("/explore");
 });
 
 router.get("/register", function(req, res){
@@ -29,18 +29,14 @@ router.get("/login", function(req, res){
     res.render("login", {page: "login"});
 })
 
-// router.post("/login", passport.authenticate("local", 
-//     {
-//         successRedirect: "/",
-//         failureRedirect: "/login",
-//         failureFlash: true
-//     }), function(req, res){
-// });
-
-router.post("/login", passport.authenticate("local"), function(req, res){
-    res.redirect(req.session.current_url || '/');
+router.post("/login", 
+    passport.authenticate("local", {
+        failureRedirect: "/login",
+        failureFlash: true
+    }), 
+    function(req, res){
+        res.redirect(req.session.current_url || '/');
 });
-
 
 router.get("/logout", function(req, res){
     req.logout();

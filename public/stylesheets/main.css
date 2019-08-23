@@ -1,7 +1,8 @@
 body {
     padding-top: 56px;
+    margin-bottom: 56px;
 }
-
+/* Let navbar shink when scrolling */
 .navbar {
     transition: padding 0.2s ease;
 }
@@ -18,5 +19,14 @@ body {
 #brand-title {
     transition: opacity 0.2s ease;   
 }
+/* Let navbar shink when scrolling */
 
+.avatar {
+    width: 32px;
+    height: 32px;
+}
 
+.avatar-lg {
+    width: 40px;
+    height: 40px;
+}
