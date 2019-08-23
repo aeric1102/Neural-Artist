@@ -20,7 +20,7 @@ router.post("/register", function(req, res){
             return res.redirect("back");
         }
         passport.authenticate("local")(req, res, function(){
-            res.redirect("/");
+            res.redirect(req.session.current_url || '/');
         })
     });
 })
@@ -29,17 +29,22 @@ router.get("/login", function(req, res){
     res.render("login", {page: "login"});
 })
 
-router.post("/login", passport.authenticate("local", 
-    {
-        successRedirect: "/",
-        failureRedirect: "/login",
-        failureFlash: true
-    }), function(req, res){
+// router.post("/login", passport.authenticate("local", 
+//     {
+//         successRedirect: "/",
+//         failureRedirect: "/login",
+//         failureFlash: true
+//     }), function(req, res){
+// });
+
+router.post("/login", passport.authenticate("local"), function(req, res){
+    res.redirect(req.session.current_url || '/');
 });
+
 
 router.get("/logout", function(req, res){
     req.logout();
-    res.redirect("/");
+    res.redirect(req.session.current_url || '/');
 });
 
 module.exports = router;

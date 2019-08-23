@@ -1,11 +1,83 @@
-<% include ../partials/header %>
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header_element %>
+    <link href="/stylesheets/explore/show.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<% include ../partials/navbar %>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-lg-4 img_container">
-            <img src="/data/outputs/1565956857186.jpg" class="rounded">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 p-1 border border-bottom-0">
+            <div class="row m-0">
+                <div class="col-12 col-lg-9 p-0">
+                    <div class="container-16-9">
+                        <img id="resultImg" src="<%= post.resultImg %>" class="container-content p-1">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 p-0">
+                    <div class="row m-0">
+                        <div class="col-6 col-lg-12 p-0">
+                            <div class="container-square">
+                                <% var img_path = "/data/styles/" + post.selectStyle + ".jpg" %>
+                                <img id="styleImg" src="<%= img_path %>" class="container-content p-1">
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-12 p-0">
+                            <div class="container-square">
+                                <img id="contentImg" src="<%= post.contentImg %>" class="container-content p-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8 p-0">
+            <div class="card border rounded-0">
+              <div class="card-body">
+                <h2 class="card-title">
+                    <img class="avatar mr-3 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
+                    <%= post.author.username %>
+                </h2>
+                <p class="card-text">
+                    <%= post.description %>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
+                </p>
+                <!-- <a href="#" class="card-link">Like</a> -->
+                <form class="form" action="/explore/<%= post._id %>" method="POST">
+                    <div class="form-row">
+                        <div class="col-10 p-0">
+                            <input class="form-control comment" type="text" name="comment" placeholder="Write a comment"></input>
+                        </div>
+                        <div class="col-2 px-1">
+                            <button class="btn btn-secondary" type="submit">Post</button>
+                        </div>
+                    </div>
+                </form>
+                <ul id="comment_list" class="list-unstyled mt-3">
+                    <% post.comments.forEach(function(comment){ %>
+                        <li class="media my-3">
+                        <img class="avatar mr-3 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
+                        <div class="media-body">
+                          <h6 class="mt-0 mb-1"><%= comment.author.username %></h5>
+                          <p><%= comment.text %></p>
+                        </div>
+                        </li>
+                    <% }) %>
+                </ul>
+              </div>
+            </div>
         </div>
     </div>
 </div>
 
-<% include ../partials/footer %>
+
+
+
+
+<% include ../partials/footer_element %>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="/scripts/explore/show.js" type="text/javascript"></script>
+</body>
+</html>

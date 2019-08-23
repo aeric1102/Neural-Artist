@@ -1,0 +1,22 @@
+body {
+    padding-top: 56px;
+}
+
+.navbar {
+    transition: padding 0.2s ease;
+}
+
+.navbar-shrink {
+    padding-top: 0;
+    padding-bottom: 0;  
+}
+
+.brand-invisible {
+    opacity: 0;  
+}
+
+#brand-title {
+    transition: opacity 0.2s ease;   
+}
+
+

@@ -20,7 +20,11 @@ function convertImage(imgPath, newImgPath){
                 }
                 img.resize(newWidth, newHeight).write(newImgPath); // save
                 if (imgPath !== newImgPath){
-                    fs.unlinkSync(imgPath);
+                    fs.unlink(imgPath, err =>{
+                        if(err){
+                            console.log("delete file error");
+                        }
+                    });
                 }
                 resolve();
             })
@@ -102,6 +106,14 @@ var path = require('path'),
     Jimp = require("jimp"),
     fs = require("fs"),
     net = require('net');
+
+if (!fs.existsSync("./public/data/contents")){
+    fs.mkdirSync("./public/data/contents");
+}
+
+if (!fs.existsSync("./public/data/outputs")){
+    fs.mkdirSync("./public/data/outputs");
+}
 
 var IMAGE_MAX_SIZE = 1024;  // max(width, height)
 var createPythonPromise = createPythonProcess();
