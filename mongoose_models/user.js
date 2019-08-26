@@ -3,7 +3,13 @@ var mongoose = require("mongoose"),
 
 var userSchema = mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    avatar: {type: String, default: "/stylesheets/avatar-placeholder.jpg"},
+    name: String,
+    email: String,
+    bio: String,
+    date: {type: Date, default: Date.now},
+    isAdmin: {type: Boolean, default: false}
 });
 
 userSchema.plugin(passportLocalMongoose);

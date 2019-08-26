@@ -2,61 +2,52 @@
 <html>
 <head>
     <% include ../partials/header_element %>
+    <link rel="stylesheet" href="/stylesheets/twentytwenty/twentytwenty.css" type="text/css" media="screen">
     <link href="/stylesheets/explore/show.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <% include ../partials/navbar %>
+<div id="show_wrapper">
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-8 p-0">
-            <!-- Image -->
-            <div class="row m-0 p-1 border">
-                <div class="col-12 col-lg-9 p-0">
-                    <div class="container-16-9">
-                        <img id="resultImg" src="<%= post.resultImg %>" class="container-content p-1">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3 p-0">
-                    <div class="row m-0">
-                        <div class="col-6 col-lg-12 p-0">
-                            <div class="container-square">
-                                <% var img_path = "/data/styles/" + post.selectStyle + ".jpg" %>
-                                <img id="styleImg" src="<%= img_path %>" class="container-content p-1">
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-12 p-0">
-                            <div class="container-square">
-                                <img id="contentImg" src="<%= post.contentImg %>" class="container-content p-1">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="main_col" class="col-12 col-lg-8 p-0">
+            <% include image_view %>
             <!-- Body -->
-            <div class="card border border-top-0 rounded-0">
-                <div class="card-body">
+            <div id="show_card" class="card border border-top-0 rounded-0">
+                <div class="card-body pb-0">
                     <!-- Post, image description -->
-                    <h2 class="card-title">
-                        <img class="avatar-lg mr-0 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
-                        <%= post.author.username %>
-                    </h2>
+                    <div class="media card-title d-flex align-items-center">
+                        <img class="avatar-md mr-2 rounded-circle" src="<%= post.author.id.avatar %>">
+                        <div class="media-body">
+                            <h3 class="m-0"><%= post.author.username %></h3>
+                            <p class="m-0 small text-secondary">
+                                <%= moment(post.date).fromNow() %>
+                            </p>
+                        </div>
+                        <button id="change_view_btn" class="mt-n4 float-right btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
+                    </div>
                     <p class="card-text">
-                        <%= post.description %>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
+                        <%= post.description %> 
                     </p>
+                    <% if(currentUser && (post.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                        <div class="row m-0 justify-content-end">
+                            <a class="btn btn-secondary float-right" href="/explore/<%= post._id %>/edit"><i class="far fa-edit"></i> Edit</a>
+                        </div>
+                    <% } %>
+
                     <hr>
                     <!-- Comment -->
                     <% if (!currentUser){ %>
                         <a href="/login" class="btn btn-primary btn-block">Login to write a comment!</a>
                     <% } else{ %>
                         <!-- <a href="#" class="card-link">Like</a> -->
-                        <div class="form-row">
+                        <div class="form-row m-0">
                             <div class="col-12 p-0">
                                 <div class="d-flex align-items-center">
                                     <textarea id="comment_input" class="form-control" name="comment" placeholder="Write a comment" rows="1" required></textarea>
                                     <div id="comment_submit_btn_container">
-                                        <button id="comment_submit_btn" class="align-self-center btn btn-secondary" type="submit" disabled>Post</button>
+                                        <button id="comment_submit_btn" class="align-self-center btn btn-primary" type="submit" disabled><i class="far fa-paper-plane"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -65,9 +56,12 @@
                     <ul id="comment_list" class="list-unstyled mt-3">
                         <% post.comments.forEach(function(comment){ %>
                             <li class="media my-3">
-                                <img class="avatar mr-3 rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
+                                <img class="avatar-sm mt-1 mr-2 rounded-circle" src="<%= comment.author.id.avatar %>">
                                 <div class="media-body">
-                                  <h6 class="mt-0 mb-1"><%= comment.author.username %></h6>
+                                    <h6 class="m-0"><%= comment.author.username %></h6>
+                                    <p class="mb-1 small text-secondary">
+                                        <%= moment(comment.date).fromNow() %>
+                                    </p>
                                   <p><%= comment.text %></p>
                                 </div>
                             </li>
@@ -79,12 +73,14 @@
     </div>
 </div>
 
+</div>
 
 
 
 
 <% include ../partials/footer_element %>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="/scripts/twentytwenty/jquery.event.move.js" type="text/javascript"></script>
+<script src="/scripts/twentytwenty/jquery.twentytwenty.js" type="text/javascript"></script>
 <script src="/scripts/explore/show.js" type="text/javascript"></script>
 </body>
 </html>

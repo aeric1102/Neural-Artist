@@ -3,8 +3,9 @@ var express = require("express"),
     fs = require("fs"),
     upload = require("../middleware/upload"),
     cloudinary = require("cloudinary").v2;
-    transformImage = require("../transform/transform");
+    transform = require("../transform/transform");
 
+transform.init(); // create python process for transforming image
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -23,7 +24,7 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
         return
     }
     try{
-        var imgData = await transformImage(req.file.path, req.body.selectStyle);
+        var imgData = await transform.transformImage(req.file.path, req.body.selectStyle);
     } catch(e){
         if (e === "System is busy, please try again later!"){
             req.flash("error", e);
@@ -38,33 +39,34 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
     }
     contentImg = "./public/" + imgData.contentImg
     resultImg = "./public/" + imgData.resultImg
-    cloudinary.uploader.upload(contentImg, {folder: "neuralartist/contentImg/"}, 
-        function(err, result) {
+    cloudinary.uploader.upload(contentImg, 
+                               {folder: "neuralartist/contentImg/"}, 
+                               function(err, result) {
+        if(err){
+            req.flash("error", err.message);
+            return res.redirect("/create");
+        }
+        imgData.contentImg = result.secure_url
+        fs.unlink(contentImg, err => {
             if(err){
-                req.flash("error", err.message);
-                return res.redirect("/create");
+                console.log("delete file error");
             }
-            imgData.contentImg = result.secure_url
-            fs.unlink(contentImg, err => {
+        });
+        cloudinary.uploader.upload(resultImg, {folder: "neuralartist/resultImg/"}, 
+            function(err, result) {
                 if(err){
-                    console.log("delete file error");
+                    req.flash("error", err.message);
+                    return res.redirect("/create");
                 }
-            });
-            cloudinary.uploader.upload(resultImg, {folder: "neuralartist/resultImg/"}, 
-                function(err, result) {
+                imgData.resultImg = result.secure_url
+                fs.unlink(resultImg, err => {
                     if(err){
-                        req.flash("error", err.message);
-                        return res.redirect("/create");
+                        console.log("delete file error");
                     }
-                    imgData.resultImg = result.secure_url
-                    fs.unlink(resultImg, err => {
-                        if(err){
-                            console.log("delete file error");
-                        }
-                    });
-                    req.flash("imgData", imgData)
-                    res.redirect("/explore/new");
-            });
+                });
+                req.flash("imgData", imgData)
+                res.redirect("/explore/new");
+        });
     });
 })
 

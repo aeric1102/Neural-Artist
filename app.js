@@ -14,15 +14,17 @@ require("dotenv").config()
 // Routing
 var indexRoutes = require("./routes/index"),
     createRoutes = require("./routes/create"),
-    exploreRoutes = require("./routes/explore");
+    exploreRoutes = require("./routes/explore"),
+    usersRoutes = require("./routes/users");
 
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useFindAndModify: false});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.locals.moment = require("moment");
 
 //Passport config
 app.use(session({
@@ -46,6 +48,7 @@ app.use(function(req, res, next){
 app.use("/", indexRoutes);
 app.use("/create", createRoutes);
 app.use("/explore", exploreRoutes);
+app.use("/users/:id", usersRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, function(){

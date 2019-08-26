@@ -18,15 +18,17 @@
         <div class="form-row">
             <div class="form-group col-lg-6 mb-3 mb-lg-0">
                 <div class="card">
-                    <div class="container-16-9">
-                        <img id="contentImg" src="/stylesheets/image-placeholder.jpg" alt="..." class="container-content card-img-top">
-                    </div>
-                    <div class="card-body p-0">
-                        <label class="form-control btn btn-secondary m-0">
-                            Choose File
-                            <input class="form-control" type="file" name="selectContent" id="selectContent" accept="image/*" required>
-                        </label>
-                    </div>
+                    <label for="selectContent">
+                        <div class="card-body p-0">
+                            <div class="container-16-9">
+                                <img id="contentImg" src="/stylesheets/image-placeholder.jpg" class="container-content card-img-top">
+                            </div>
+                            <div class="btn btn-secondary btn-block">
+                                Choose File
+                                <input class="form-control d-none" type="file" name="selectContent" id="selectContent" accept="image/*" required>
+                            </div>
+                        </div>
+                    </label>
                 </div>
             </div>
             <div class="form-group col-lg-6 mt-3 mt-lg-0">
@@ -38,7 +40,7 @@
                                 <div class="col-6 p-2">
                                     <div class="container-square">
                                         <% var img_path = "data/styles/" + options[i] + ".jpg" %>
-                                        <input class="selectStyle" type="radio" name="selectStyle" value="<%= options[i] %>" id="<%= options[i]+"_" %>" required>
+                                        <input class="selectStyle d-none" type="radio" name="selectStyle" value="<%= options[i] %>" id="<%= options[i]+"_" %>" required>
                                         <label class="container-content" for="<%= options[i]+"_" %>"></label>
                                     </div>
                                 </div>

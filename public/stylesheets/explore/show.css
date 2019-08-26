@@ -17,15 +17,17 @@
     object-fit: cover;
 }
 @media only screen and (min-width: 992px) {
-    .container-square {
+    #slider_view .container-square,
+    #original_view .container-square {
         position: relative;
         height: 0;
-        padding-bottom: 12.5vw;
+        padding-bottom: 14vw;
     }
-    .container-16-9 {
+    #slider_view .container-16-9,
+    #original_view .container-16-9 {
         position: relative;
         height: 0;
-        padding-bottom: 25vw;
+        padding-bottom: 28vw;
     }
 }
 
@@ -37,5 +39,5 @@
 }
 
 #comment_input {
-    margin-right: 56px;
+    margin-right: 50px;
 }

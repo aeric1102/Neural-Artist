@@ -21,12 +21,38 @@ body {
 }
 /* Let navbar shink when scrolling */
 
-.avatar {
+.avatar-xs {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+}
+
+.avatar-sm {
     width: 32px;
     height: 32px;
+    object-fit: cover;
+}
+
+.avatar, .avatar-md {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }
 
 .avatar-lg {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+}
+
+.avatar-xl {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+}
+
+.avatar-xxl {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
 }

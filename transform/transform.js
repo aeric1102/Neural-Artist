@@ -1,13 +1,17 @@
-function convertImage(imgPath, newImgPath){
+function convertImage(filePath){
     // Convert to jpg and resize
     return new Promise((resolve, reject) => {
-        Jimp.read(imgPath)
+        var pathObj = path.parse(filePath);
+        var filename = pathObj.name + ".jpg";
+        var newFilePath = path.join(pathObj.dir, filename);
+        Jimp.read(filePath)
             .then(img => {
-                if (imgPath === newImgPath 
+                if (filePath === newFilePath 
                     && img.bitmap.width <= IMAGE_MAX_SIZE
                     && img.bitmap.height <= IMAGE_MAX_SIZE){
-                    // No need to resize or conversion
-                    resolve();
+                    // No need to resize or converse
+                    resolve(filename);
+                    return;
                 }
                 var newWidth = Math.min(IMAGE_MAX_SIZE, img.bitmap.width);
                 var newHeight = Math.min(IMAGE_MAX_SIZE, img.bitmap.height);
@@ -18,15 +22,17 @@ function convertImage(imgPath, newImgPath){
                 else{
                     var newWidth = Math.round(img.bitmap.width/img.bitmap.height*newHeight);
                 }
-                img.resize(newWidth, newHeight).write(newImgPath); // save
-                if (imgPath !== newImgPath){
-                    fs.unlink(imgPath, err =>{
+                if (filePath !== newFilePath){
+                    fs.unlinkSync(filePath, err =>{
                         if(err){
                             console.log("delete file error");
                         }
                     });
                 }
-                resolve();
+                //resize then save
+                img.resize(newWidth, newHeight).write(newFilePath, () =>{
+                    resolve(filename);
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -42,14 +48,8 @@ async function transformImage(filePath, selectStyle){
         return Promise.reject(e)
     }
     var st = new Date()
-    var pathObj = path.parse(filePath);
-    var filename = pathObj.name + pathObj.ext;
-    if (pathObj.ext !== ".jpg"){
-        filename = pathObj.name + ".jpg";
-    }
-    var newFilePath = path.join(pathObj.dir, pathObj.name) + ".jpg";
     try{
-        await convertImage(filePath, newFilePath);
+        var filename = await convertImage(filePath);
     } catch(e){
         return Promise.reject(e)
     }
@@ -108,19 +108,22 @@ function createPythonProcess(){
     return promise
 }
 
+function init(){
+    createPythonPromise = createPythonProcess();
+    if (!fs.existsSync("./public/data/contents")){
+        fs.mkdirSync("./public/data/contents");
+    }
+
+    if (!fs.existsSync("./public/data/outputs")){
+        fs.mkdirSync("./public/data/outputs");
+    }
+}
+
 var path = require('path'),
     Jimp = require("jimp"),
     fs = require("fs"),
     net = require('net');
 
-if (!fs.existsSync("./public/data/contents")){
-    fs.mkdirSync("./public/data/contents");
-}
-
-if (!fs.existsSync("./public/data/outputs")){
-    fs.mkdirSync("./public/data/outputs");
-}
-
 var IMAGE_MAX_SIZE = 1024;  // max(width, height)
-var createPythonPromise = createPythonProcess();
-module.exports = transformImage;
+var createPythonPromise;
+module.exports = {init: init, transformImage: transformImage, convertImage: convertImage};

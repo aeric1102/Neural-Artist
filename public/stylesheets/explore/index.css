@@ -3,13 +3,11 @@
     height: 0;
     padding-bottom: 100%;
 }
-
 .container-16-9 {
     position: relative;
     height: 0;
     padding-bottom: 56.25%;
 }
-
 .container-content {
     position: absolute;
     top: 0;
@@ -19,10 +17,21 @@
     object-fit: cover;
 }
 
-.container-square:hover {
+.post-block:hover {
     background-color: black;
 }
 
-.container-content:hover {
+.post-block:hover .post-link {
     opacity: 0.6;
+}
+
+.centered-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+}
+.post-block:hover .centered-icon{
+    opacity: 1;
 }

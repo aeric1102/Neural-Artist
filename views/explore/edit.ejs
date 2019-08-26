@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header_element %>
+    <link rel="stylesheet" href="/stylesheets/twentytwenty/twentytwenty.css" type="text/css" media="screen">
+    <link href="/stylesheets/explore/new.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<% include ../partials/navbar %>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 p-0">
+            <% include image_view %>
+            <!-- Body -->
+            <div class="card border border-top-0 rounded-0">
+                <div class="card-body">
+                    <!-- Post, image description -->
+                    <div class="media card-title mb-3 d-flex align-items-center">
+                        <img class="avatar-md mr-2 rounded-circle" src="<%= currentUser.avatar %>">
+                        <div class="media-body">
+                            <h3 class="m-0"><%= currentUser.username %></h3>
+                        </div>
+                        <button id="change_view_btn" class="mt-n4 float-right btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <form action="/explore/<%= post._id %>?_method=PUT" method="POST">
+                        <textarea id="description_input" class="form-control" name="description" rows="8"><%= post.description %></textarea>
+                        <div class="mt-1 d-flex justify-content-end">
+                            <a class="btn btn-light" href="/explore/<%= post._id %>">Cancel</a>
+                            <button id="submitBtn" class="mx-1 btn btn-secondary">Save</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteWarningModal"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteWarningModal" tabindex="-1" role="dialog" aria-labelledby="deleteWarningModalCenterTitle" aria-hidden="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="deleteWarningModalTitle">Delete Post?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="/explore/<%= post._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger float-right mx-1">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% include ../partials/footer_element %>
+<script src="/scripts/twentytwenty/jquery.event.move.js" type="text/javascript"></script>
+<script src="/scripts/twentytwenty/jquery.twentytwenty.js" type="text/javascript"></script>
+<script src="/scripts/explore/new.js" type="text/javascript"></script>
+</body>
+</html>

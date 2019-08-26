@@ -10,14 +10,16 @@ var postSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        username: String
+        username: String,
+        avatar: String
     },
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
         }
-    ]
+    ],
+    date: {type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model("Post", postSchema);

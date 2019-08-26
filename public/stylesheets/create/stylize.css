@@ -42,23 +42,16 @@
     width: 100%;
 }
 
-#selectContent {
-    opacity: 0;
-    height: 0;
-    width: 0;
-}
-
-.selectStyle {
-    opacity: 0;
-}
-
-
 .container-square {
     background-color: black;
 }
 
+.selectStyle:hover + label {
+    opacity: 0.8;
+}
+
 .selectStyle:checked + label {
-    opacity: 0.6;
+    opacity: 0.5 !important;
 }
 
 

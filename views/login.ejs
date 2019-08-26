@@ -1,10 +1,16 @@
 <% include ./partials/header %>
 
+<div id="login_wrapper">
+
 <div class="container">
     <div class="row justify-content-center mt-5">
-         <div class="col-4 p-5 border">  
-            <h1 class="text-center pb-3">Login</h1>
-            <form action="/login" method="post">
+         <div id="login_col" class="col-12 col-sm-10 col-md-8 col-lg-4 p-5 border">
+            <div class="text-center">
+                <img class="mb-2 avatar-xxl rounded-circle" src="/stylesheets/avatar-placeholder.jpg">
+                <h1 id="main_text">Login</h1>
+            </div>
+            <hr>
+            <form id="submit_form" action="/login" method="post">
                 <div class="form-group">
                     <input class="form-control" type="text" name="username" placeholder="username">
                 </div>
@@ -12,13 +18,14 @@
                     <input class="form-control" type="password" name="password" placeholder="password">
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block">Login</button>
+                    <button class="btn btn-info btn-block">Login</button>
                 </div>
             </form>
             <a href="javascript:history.back()">Go Back</a>
-            <a class="float-right" href="/register">Sign Up</a>
+            <a id="bottom_text" class="float-right" href="/register">Sign up</a>
         </div>
     </div>
 </div>
 
+</div>
 <% include ./partials/footer %>
