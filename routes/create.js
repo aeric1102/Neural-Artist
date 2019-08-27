@@ -18,6 +18,7 @@ router.get("/", function(req, res){
 });
 
 router.post("/", upload.single("selectContent"), async function (req, res, next) {
+    var st = new Date();
     if (req.file == null){ // invalid file
         req.flash("error", "Only images (jpg or png) are allowed!");
         res.redirect("/create");
@@ -37,6 +38,9 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
         }
         return;
     }
+    var md = new Date();
+    var transformTime = Math.round((md-st)*1000) / 1000000;
+    console.log("Transform Time: " + transformTime);
     contentImg = "./public/" + imgData.contentImg
     resultImg = "./public/" + imgData.resultImg
     cloudinary.uploader.upload(contentImg, 
@@ -65,6 +69,8 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
                     }
                 });
                 req.flash("imgData", imgData)
+                var requestTime = Math.round((new Date()-st)*1000) / 1000000;
+                console.log("Success. Request Time: " + requestTime);
                 res.redirect("/explore/new");
         });
     });

@@ -47,7 +47,6 @@ async function transformImage(filePath, selectStyle){
     } catch(e){
         return Promise.reject(e)
     }
-    var st = new Date()
     try{
         var filename = await convertImage(filePath);
     } catch(e){
@@ -63,7 +62,7 @@ async function transformImage(filePath, selectStyle){
     client.connect(port, '127.0.0.1', function() {
         console.log("Start transform");
         var pyInput = (
-            "./transform/models/" + selectStyle + "$" +
+            "./transform/models/" + selectStyle + "/$" +
             "./public/data/contents/" + filename + "$" +
             "./public/data/outputs/" + filename
         )
@@ -79,8 +78,6 @@ async function transformImage(filePath, selectStyle){
             reject("System is busy, please try again later!");
         });
         client.on('close', function() {
-            var requestTime = Math.round((new Date()-st)*1000) / 1000000
-            console.log("Request Time: " + requestTime);
             resolve(imgData)
         });
     })
