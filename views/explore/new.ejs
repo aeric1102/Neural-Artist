@@ -28,9 +28,13 @@
                     <% } else{ %>
                         <!-- Post, image description -->
                         <div class="media card-title mb-3 d-flex align-items-center">
-                            <img class="avatar-md mr-2 rounded-circle" src="<%= currentUser.avatar %>">
+                            <a href="/users/<%= currentUser._id %>">
+                                <img class="avatar-md mr-2 rounded-circle" src="<%= currentUser.avatar %>">
+                            </a>
                             <div class="media-body">
-                                <h3 class="m-0"><%= currentUser.username %></h3>
+                                <a href="/users/<%= currentUser._id %>">
+                                    <h3 class="m-0"><%= currentUser.username %></h3>
+                                </a>
                             </div>
                             <button id="change_view_btn" class="mt-n4 float-right btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
                         </div>
@@ -38,7 +42,7 @@
                             <input type="hidden" name="post[contentImg]" value="<%= post.contentImg %>">
                             <input type="hidden" name="post[selectStyle]" value="<%= post.selectStyle %>">
                             <input type="hidden" name="post[resultImg]" value="<%= post.resultImg %>">
-                            <textarea id="description_input" class="form-control" name="description" rows="8" placeholder="Say something about your pictures, <%= currentUser.username %>."></textarea>
+                            <textarea id="description_input" class="form-control" name="description" rows="8" maxlength="50000" placeholder="Say something about your pictures, <%= currentUser.username %>."></textarea>
                             <button id="submitBtn" class="mt-1 btn btn-primary btn-block">Share with others!</button>
                         </form>
                     <% } %>

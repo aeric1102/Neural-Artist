@@ -1,10 +1,35 @@
-body {
-    padding-top: 56px;
-    margin-bottom: 56px;
+html {
+    position: relative;
+    min-height: 100%;
 }
+
+body {
+    padding-top: 96px;
+    margin-bottom: 85px;
+    font-family: "Raleway", sans-serif;
+}
+
+#bottom-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
 /* Let navbar shink when scrolling */
 .navbar {
     transition: padding 0.2s ease;
+}
+
+@media only screen and (min-width: 992px) {
+    .navbar {
+        padding-left: 8rem;
+        padding-right: 8rem;
+    }
+}
+.nav-link {
+    margin-left: 0.5rem !important;
+    margin-right: 0.5rem !important;
 }
 
 .navbar-shrink {
@@ -55,4 +80,64 @@ body {
     width: 56px;
     height: 56px;
     object-fit: cover;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #2B5B80;
+    border-color: #2B5B80;
+}
+.btn-primary:disabled {
+    color: #fff;
+    background-color: #91ABC2 !important;
+    border-color: #91ABC2 !important;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #114a76 !important;
+    border-color: #114a76 !important;
+}
+
+.btn-primary:active {
+    color: #fff;
+    background-color: #024d86 !important;
+    border-color: #024d86 !important;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #91ABC2;
+    border-color: #91ABC2;
+}
+
+.btn-secondary:hover {
+    color: #fff;
+    background-color: #6f9cc4 !important;
+    border-color: #6f9cc4 !important;
+}
+
+.btn-secondary:active {
+    color: #fff;
+    background-color: #5691c6 !important;
+    border-color: #5691c6 !important;
+}
+
+#top_jumbotron {
+    background: #2B5B80;  /* fallback for old browsers */
+    background: radial-gradient(circle, #2B5B80 30%, #91ABC2 80%, #EBD0BF 100%);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    transition: opacity 0.2s ease;
+}
+
+.navbar-dark .navbar-brand {
+    color: #91ABC2;
+    font-weight: 700;
+}
+
+a {
+    color: #2B5B80;
 }

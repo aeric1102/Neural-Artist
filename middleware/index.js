@@ -74,4 +74,29 @@ middlewareObj.checkProfileOwnership = function(req, res, next){
     res.redirect("/login");
 }
 
+middlewareObj.checkCommentOwnershipAjax = function(req, res, next){
+    if(req.isAuthenticated()){
+        Comment.findById(req.params.commentId, function(err, comment){
+            if(err){
+                req.flash("error", err.message)
+                return res.json({
+                    redirect: "/explore/" + req.params.id
+                });
+            }
+            if(comment.author.id.equals(req.user._id) || req.user.isAdmin){
+                return next();
+            } 
+            req.flash("error", "You don't have permission.");
+            return res.json({
+                redirect: "/explore/" + req.params.id
+            });
+        });
+        return;
+    }
+    req.flash("error", "Please login first!");
+    res.json({
+        redirect: "/login"
+    });
+}
+
 module.exports = middlewareObj;

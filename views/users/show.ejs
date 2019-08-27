@@ -16,7 +16,6 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header py-2 px-3 border-0">
-            <!-- <h5 class="modal-title" id="modalLabel"></h5> -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -35,30 +34,30 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="mb-1 pb-0 pt-4">
-                <div class="row">
-                    <div class="col-12 col-lg-3">
+                <div class="row m-0">
+                    <div class="col-12 col-lg-3 p-0">
                         <div class="text-center">
                             <img class="text-center avatar-profile rounded-circle" src="<%= user.avatar %>">
-                            <h3><%= user.username %></h3>
+                            <h3 class="my-0 text-break"><%= user.username %></h3>
                             <% if (user.email){ %>
-                                <p class="lead m-0"><%= user.email %></p>
+                                <p class="text-break mb-1 mb-lg-0"><%= user.email %></p>
                             <% } %>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-7">
+                    <div class="col-12 col-lg-7 ml-lg-4 p-0">
                         <% if (user.name){ %>
-                            <h3 class=""><%= user.name %></h3>
+                            <h3 class="text-break"><%= user.name %></h3>
                         <% } %>
                         
                         <div>
                             <% if (user.bio){ %>
-                                <p class=""><%= user.bio %></p>
+                                <p class="text-break"><%= user.bio %></p>
                             <% } %>
                         </div>
                     </div>
                     <% if (currentUser && (currentUser._id.equals(user._id) || currentUser.isAdmin)){ %>
-                        <div class="col-12 col-lg-2 text-center">
-                            <a class="btn btn-secondary text-center" href="/users/<%= user._id %>/edit">Edit profile</a>
+                        <div class="col-12 col-lg-2 ml-lg-n4 p-0 text-center text-lg-right">
+                            <a class="btn btn-secondary" href="/users/<%= user._id %>/edit">Edit profile</a>
                         </div>
                     <% } %>
                 </div>
@@ -66,9 +65,10 @@
             <p class="lead text-right mb-0">
                 <%= posts.length %> Posts
             </p>
+            <hr class="my-1">
             <div class="row">
                 <% posts.forEach(function(post){ %>
-                    <div class="col-4 p-2">
+                    <div class="col-4 px-1 p-lg-1 px-lg-2">
                         <div class="m-0 container-square post-block">
                             <a class="post-link" href="/explore/<%= post._id %>">
                                 <img src="<%= post.resultImg %>" class="container-content">

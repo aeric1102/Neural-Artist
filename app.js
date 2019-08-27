@@ -15,6 +15,7 @@ require("dotenv").config()
 var indexRoutes = require("./routes/index"),
     createRoutes = require("./routes/create"),
     exploreRoutes = require("./routes/explore"),
+    commentsRoutes = require("./routes/comments"),
     usersRoutes = require("./routes/users");
 
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useFindAndModify: false});
@@ -48,6 +49,7 @@ app.use(function(req, res, next){
 app.use("/", indexRoutes);
 app.use("/create", createRoutes);
 app.use("/explore", exploreRoutes);
+app.use("/explore/:id/comments", commentsRoutes);
 app.use("/users/:id", usersRoutes);
 
 const port = process.env.PORT || 3000;

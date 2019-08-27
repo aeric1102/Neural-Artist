@@ -18,9 +18,15 @@
                 <div class="card-body pb-0">
                     <!-- Post, image description -->
                     <div class="media card-title d-flex align-items-center">
-                        <img class="avatar-md mr-2 rounded-circle" src="<%= post.author.id.avatar %>">
+                        <a href="/users/<%= post.author.id._id %>">
+                            <img class="avatar-md mr-2 rounded-circle" src="<%= post.author.id.avatar %>">
+                        </a>
                         <div class="media-body">
-                            <h3 class="m-0"><%= post.author.username %></h3>
+                            <h3 class="m-0">
+                                <a href="/users/<%= post.author.id._id %>">
+                                    <%= post.author.username %>
+                                </a>    
+                            </h3>
                             <p class="m-0 small text-secondary">
                                 <%= moment(post.date).fromNow() %>
                             </p>
@@ -45,9 +51,9 @@
                         <div class="form-row m-0">
                             <div class="col-12 p-0">
                                 <div class="d-flex align-items-center">
-                                    <textarea id="comment_input" class="form-control" name="comment" placeholder="Write a comment" rows="1" required></textarea>
+                                    <textarea id="comment_input" class="form-control" name="comment" placeholder="Write a comment" rows="1" maxlength="5000" required></textarea>
                                     <div id="comment_submit_btn_container">
-                                        <button id="comment_submit_btn" class="align-self-center btn btn-primary" type="submit" disabled><i class="far fa-paper-plane"></i></button>
+                                        <button id="comment_submit_btn" class="align-self-center btn btn-primary" disabled><i class="far fa-paper-plane"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -55,14 +61,31 @@
                     <% } %>
                     <ul id="comment_list" class="list-unstyled mt-3">
                         <% post.comments.forEach(function(comment){ %>
-                            <li class="media my-3">
-                                <img class="avatar-sm mt-1 mr-2 rounded-circle" src="<%= comment.author.id.avatar %>">
+                            <li id="<%= comment._id %>" class="media my-3">
+                                <a href="/users/<%= comment.author.id._id %>">
+                                    <img class="avatar-sm mt-1 mr-2 rounded-circle" src="<%= comment.author.id.avatar %>">
+                                </a>
                                 <div class="media-body">
-                                    <h6 class="m-0"><%= comment.author.username %></h6>
+                                    <h6 class="m-0">
+                                        <a href="/users/<%= comment.author.id._id %>">
+                                            <%= comment.author.username %>
+                                        </a>
+                                    </h6>
                                     <p class="mb-1 small text-secondary">
                                         <%= moment(comment.date).fromNow() %>
                                     </p>
-                                  <p><%= comment.text %></p>
+                                    <div class="row m-0">
+                                        <div class="col-11 p-0">
+                                            <p class="text-break"><%= comment.text %></p>
+                                        </div>
+                                        <div class="col-1">
+                                            <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                                                <a href="/explore/<%= post._id %>/comments/<%= comment._id %>" class="deleteCommentBtn float-right">
+                                                    <i class="far fa-trash-alt text-danger"></i>
+                                                </a>
+                                            <% } %>
+                                        </div>
+                                    </div>  
                                 </div>
                             </li>
                         <% }) %>

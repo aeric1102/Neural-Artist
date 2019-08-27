@@ -3,8 +3,7 @@ var express = require("express"),
     middleware = require("../middleware"),
     User = require("../mongoose_models/user"),
     Post = require("../mongoose_models/post"),
-    Comment = require("../mongoose_models/comment"),
-    moment = require("moment");
+    Comment = require("../mongoose_models/comment");
 
 router.get("/", function(req, res){
     req.session.current_url = req.originalUrl;
@@ -80,49 +79,6 @@ router.get("/:id", function(req, res){
             }
             res.render("explore/show", {page: "explore", post: post});
         });
-});
-
-
-
-router.post("/:id", middleware.isLoggedInAjax, function(req, res){
-    Post.findById(req.params.id, function(err, post){
-        if(err){
-            req.flash("error", "Unable to find the page")
-            return res.json({
-                redirect: "/explore/"+req.params.id
-            });
-        }
-        User.findById(req.user._id, "avatar", function(err, user){
-            if(err){
-                req.flash("error", "Something went wrong")
-                return res.json({
-                    redirect: "/explore/"+req.params.id
-                });
-            }
-            var comment = {
-                text: req.body.comment,
-                author:{
-                    id: req.user._id,
-                    username: req.user.username
-                }
-            }
-            Comment.create(comment, function(err, comment){
-                if(err){
-                    req.flash("error", "Something went wrong")
-                    return res.json({
-                        redirect: "/explore/"+req.params.id
-                    });
-                }
-                comment.save();
-                post.comments.push(comment);
-                post.save();
-                comment = comment.toObject() // from mongoose document to JavaScript object
-                comment.author.avatar = user.avatar;
-                comment.date = moment(comment.date).fromNow();
-                res.json(comment);
-            });
-        });
-    });
 });
 
 router.get("/:id/edit", middleware.checkPostOwnership, function(req, res){

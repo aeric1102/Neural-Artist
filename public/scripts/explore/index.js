@@ -40,5 +40,6 @@ $(".post-link").click(function(e){
     });
 });
 
-
-
+if (window.location.pathname === "/explore"){
+    $("#top_jumbotron p").html("Find Some Ideas");
+}

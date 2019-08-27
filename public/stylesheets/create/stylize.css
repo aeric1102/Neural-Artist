@@ -1,11 +1,6 @@
-.jumbotron {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    margin-top: -1rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    color: white;
-    text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
+body {
+    padding-top: 120px;
+    margin-bottom: 50px;
 }
 
 .container-square {
@@ -54,4 +49,12 @@
     opacity: 0.5 !important;
 }
 
+/*for browser to focus*/
+#selectContent, .selectStyle {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+}
 

@@ -17,14 +17,20 @@
                 <div class="card-body">
                     <!-- Post, image description -->
                     <div class="media card-title mb-3 d-flex align-items-center">
-                        <img class="avatar-md mr-2 rounded-circle" src="<%= currentUser.avatar %>">
+                        <a href="/users/<%= currentUser._id %>">
+                            <img class="avatar-md mr-2 rounded-circle" src="<%= currentUser.avatar %>">
+                        </a>
                         <div class="media-body">
-                            <h3 class="m-0"><%= currentUser.username %></h3>
+                            <h3 class="m-0">
+                                <a href="/users/<%= currentUser._id %>">
+                                    <%= currentUser.username %>
+                                </a>
+                            </h3>
                         </div>
                         <button id="change_view_btn" class="mt-n4 float-right btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
                     </div>
                     <form action="/explore/<%= post._id %>?_method=PUT" method="POST">
-                        <textarea id="description_input" class="form-control" name="description" rows="8"><%= post.description %></textarea>
+                        <textarea id="description_input" class="form-control" name="description" rows="8" maxlength="50000"><%= post.description %></textarea>
                         <div class="mt-1 d-flex justify-content-end">
                             <a class="btn btn-light" href="/explore/<%= post._id %>">Cancel</a>
                             <button id="submitBtn" class="mx-1 btn btn-secondary">Save</button>

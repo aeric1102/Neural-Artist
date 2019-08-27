@@ -6,6 +6,7 @@ $(function(){
     $(window).scroll(function(e) {
         $(".navbar")[$(window).scrollTop() >= 150 ? "addClass" : "removeClass"]("navbar-shrink");
         $("#brand-title")[$(window).scrollTop() >= 150 ? "addClass" : "removeClass"]("brand-invisible");
+        $("#top_jumbotron")[$(window).scrollTop() >= 150 ? "addClass" : "removeClass"]("brand-invisible");
     });
 });
 
