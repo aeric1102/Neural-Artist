@@ -105,6 +105,9 @@ function createPythonProcess(){
 }
 
 function init(){
+    if (!fs.existsSync("./public/data")) {
+        fs.mkdirSync("./public/data");
+    }
     createPythonPromise = createPythonProcess();
 }
 
