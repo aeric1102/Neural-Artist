@@ -29,13 +29,11 @@
                 <div class="card">
                     <div class="style-block">
                         <div class="row m-0">
-                            <% var options = [ "wave", "the_shipwreck_of_the_minotaur", "the_scream", "rain_princess", "la_muse", "udnie" ] %>
-                            <% for(var i = 0; i < options.length; i++){ %>
+                            <% for(var i = 0; i < styleImgModelPath.length; i++){ %>
                                 <div class="col-6 p-2">
                                     <div class="container-square">
-                                        <% var img_path = "data/styles/" + options[i] + ".jpg" %>
-                                        <input class="selectStyle" type="radio" name="selectStyle" value="<%= options[i] %>" id="<%= options[i]+"_" %>" required>
-                                        <label class="container-content" for="<%= options[i]+"_" %>"></label>
+                                        <input class="selectStyle" type="radio" name="selectStyle" value="<%= i %>" id="styleImg_<%= i %>" required>
+                                        <label class="container-content" for="styleImg_<%= i %>" style="background-image: url(<%= styleImgModelPath[i].styleImg %>); background-size: cover"></label>
                                     </div>
                                 </div>
                             <% }  %>

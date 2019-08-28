@@ -9,15 +9,6 @@ $("#selectContent").change(function(){
     );
 });
 
-$(".selectStyle").each(function(){
-    var img_path = "/data/styles/" + $(this).prop("value") + ".jpg";
-    $("label[for="+ $(this).prop("id") + "]").css(
-        {
-            "backgroundImage": "url(" + img_path + ")",
-            "backgroundSize": "cover"
-        })
-});
-
 $("#img_stylize_form").submit(function(){
     $("#submitBtn").addClass("d-none");
     $("#loading_spinner").removeClass("d-none");

@@ -12,12 +12,14 @@ var express = require("express"),
 router.get("/", function(req, res){
     User.findById(req.params.id, function(err, user){
         if(err){
-            req.flash("error", err.message)
+            req.flash("error", "A server error occurred: Unable to find the page")
+            console.log(err);
             return res.redirect("back");
         }
         Post.find().where("author.id").equals(user._id).exec(function(err, posts){
             if(err){
-                req.flash("error", err.message)
+                req.flash("error", "A server error occurred: Unable to find the page")
+                console.log(err);
                 return res.redirect("back");
             }
             res.render("users/show", {page: "profile", user: user, posts:posts});
@@ -28,7 +30,8 @@ router.get("/", function(req, res){
 router.get("/edit", middleware.checkProfileOwnership, function(req, res){
     User.findById(req.params.id, function(err, user){
         if(err){
-            req.flash("error", err.message)
+            req.flash("error", "A server error occurred: Unable to find the page")
+            console.log(err);
             return res.redirect("back");
         }
         res.render("users/edit", {page: "profile", user: user});
@@ -41,7 +44,8 @@ router.put("/", middleware.checkProfileOwnership,
     if (req.file == null){ // no image file
         User.findByIdAndUpdate(req.params.id, req.body.user, function(err, post){
             if(err){
-                req.flash("error", err.message);
+                req.flash("error", "A server error occurred: Unable to process your request")
+                console.log(err);
                 return res.redirect("/users/" + req.params.id);
             }
             return res.redirect("/users/" + req.params.id);
@@ -55,7 +59,8 @@ router.put("/", middleware.checkProfileOwnership,
                                {folder: "neuralartist/avatar/"}, 
                                function(err, result){
         if(err){
-            req.flash("error", err.message);
+            req.flash("error", "A server error occurred: Unable to process your request")
+            console.log(err);
             return res.redirect("/users/" + req.params.id);
         }
         fs.unlink(filepath, err => {
@@ -69,7 +74,8 @@ router.put("/", middleware.checkProfileOwnership,
         // start to save data in database.
         User.findByIdAndUpdate(req.params.id, update_user, function(err, post){
             if(err){
-                req.flash("error", err.message);
+                req.flash("error", "A server error occurred: Unable to process your request")
+                console.log(err);
                 return res.redirect("/users/" + req.params.id);
             }
             res.redirect("/users/" + req.params.id);

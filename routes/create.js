@@ -5,6 +5,8 @@ var express = require("express"),
     cloudinary = require("cloudinary").v2;
     transform = require("../transform/transform");
 
+
+var styleImgModelPath = JSON.parse(fs.readFileSync("./transform/style_img_model_path.json", "utf8"));
 transform.init(); // create python process for transforming image
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -14,7 +16,7 @@ cloudinary.config({
 
 router.get("/", function(req, res){
     req.session.current_url = req.originalUrl;
-    res.render("create/stylize", {page: "create"});
+    res.render("create/stylize", {page: "create", styleImgModelPath: styleImgModelPath});
 });
 
 router.post("/", upload.single("selectContent"), async function (req, res, next) {
@@ -24,16 +26,20 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
         res.redirect("/create");
         return
     }
+    var model_num = parseInt(req.body.selectStyle);
+    var selectModel = styleImgModelPath[model_num].modelPath;
+    var selectStyle = styleImgModelPath[model_num].styleImg;
     try{
-        var imgData = await transform.transformImage(req.file.path, req.body.selectStyle);
-    } catch(e){
-        if (e === "System is busy, please try again later!"){
-            req.flash("error", e);
+        var imgData = await transform.transformImage(req.file.path, selectModel);
+    } catch(err){
+        if (err === "System is busy, please try again later!"){
+            req.flash("error", err);
             res.redirect("/create");
         }
         else{
             // Perhaps, Jimp error or python process error
-            req.flash("error", "Sorry, something went wrong.");
+            req.flash("error", "A server error occurred: Unable to process your data")
+            console.log(err);
             res.redirect("/create");
         }
         return;
@@ -41,13 +47,15 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
     var md = new Date();
     var transformTime = Math.round((md-st)*1000) / 1000000;
     console.log("Transform Time: " + transformTime);
-    contentImg = "./public/" + imgData.contentImg
-    resultImg = "./public/" + imgData.resultImg
+    var contentImg = "./public/" + imgData.contentImg;
+    imgData.selectStyle = selectStyle;
+    var resultImg = "./public/" + imgData.resultImg;
     cloudinary.uploader.upload(contentImg, 
                                {folder: "neuralartist/contentImg/"}, 
                                function(err, result) {
         if(err){
-            req.flash("error", err.message);
+            req.flash("error", "A server error occurred: Unable to process your data")
+            console.log(err);
             return res.redirect("/create");
         }
         imgData.contentImg = result.secure_url
@@ -59,7 +67,8 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
         cloudinary.uploader.upload(resultImg, {folder: "neuralartist/resultImg/"}, 
             function(err, result) {
                 if(err){
-                    req.flash("error", err.message);
+                    req.flash("error", "A server error occurred: Unable to process your data")
+                    console.log(err);
                     return res.redirect("/create");
                 }
                 imgData.resultImg = result.secure_url

@@ -26,7 +26,8 @@ middlewareObj.checkPostOwnership = function(req, res, next){
     if(req.isAuthenticated()){
         Post.findById(req.params.id, function(err, post){
             if(err){
-                req.flash("error", err.message)
+                req.flash("error", "A server error occurred: Unable to process your request")
+                console.log(err);
                 return res.redirect("/explore/" + req.params.id);
             }
             if(post.author.id.equals(req.user._id) || req.user.isAdmin){
@@ -46,7 +47,8 @@ middlewareObj.checkCommentOwnership = function(req, res, next){
     if(req.isAuthenticated()){
         Comment.findById(req.params.commentId, function(err, comment){
             if(err){
-                req.flash("error", err.message)
+                req.flash("error", "A server error occurred: Unable to process your request")
+                console.log(err);
                 return res.redirect("/explore/" + req.params.id);
             }
             if(comment.author.id.equals(req.user._id) || req.user.isAdmin){
@@ -78,7 +80,8 @@ middlewareObj.checkCommentOwnershipAjax = function(req, res, next){
     if(req.isAuthenticated()){
         Comment.findById(req.params.commentId, function(err, comment){
             if(err){
-                req.flash("error", err.message)
+                req.flash("error", "A server error occurred: Unable to process your request")
+                console.log(err);
                 return res.json({
                     redirect: "/explore/" + req.params.id
                 });

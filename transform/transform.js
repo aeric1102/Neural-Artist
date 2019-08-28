@@ -41,7 +41,7 @@ function convertImage(filePath){
     });
 }
 
-async function transformImage(filePath, selectStyle){
+async function transformImage(filePath, selectModel){
     try{
         var port = await createPythonPromise;
     } catch(e){
@@ -53,18 +53,17 @@ async function transformImage(filePath, selectStyle){
         return Promise.reject(e)
     }
     var imgData = {
-        contentImg: "./data/contents/" + filename,
-        selectStyle: selectStyle,
-        resultImg:  "./data/outputs/" + filename
+        contentImg: "./data/" + filename,
+        resultImg:  "./data/result_" + filename
     }
     
     var client = new net.Socket();
     client.connect(port, '127.0.0.1', function() {
         console.log("Start transform");
         var pyInput = (
-            "./transform/models/" + selectStyle + "/$" +
-            "./public/data/contents/" + filename + "$" +
-            "./public/data/outputs/" + filename
+            selectModel + "$" +
+            "./public/data/" + filename + "$" +
+            "./public/data/result_" + filename
         )
         client.write(pyInput);
     });
@@ -107,13 +106,6 @@ function createPythonProcess(){
 
 function init(){
     createPythonPromise = createPythonProcess();
-    if (!fs.existsSync("./public/data/contents")){
-        fs.mkdirSync("./public/data/contents");
-    }
-
-    if (!fs.existsSync("./public/data/outputs")){
-        fs.mkdirSync("./public/data/outputs");
-    }
 }
 
 var path = require('path'),

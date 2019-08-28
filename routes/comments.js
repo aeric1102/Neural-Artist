@@ -37,8 +37,7 @@ router.post("/", middleware.isLoggedInAjax, function(req, res){
                         redirect: "/explore/"+req.params.id
                     });
                 }
-                comment.save();
-                post.comments.push(comment);
+                post.comments.push(comment._id);
                 post.save();
                 comment = comment.toObject() // from mongoose document to JavaScript object
                 comment.author.avatar = user.avatar;
@@ -52,14 +51,23 @@ router.post("/", middleware.isLoggedInAjax, function(req, res){
 
 
 router.delete("/:commentId", middleware.checkCommentOwnershipAjax, function(req, res){
-    Comment.findByIdAndRemove(req.params.commentId, function(err, post){
+    Comment.findByIdAndRemove(req.params.commentId, function(err, comment){
         if(err){
             req.flash("error", "Something went wrong");
             return res.json({
                 redirect: "/explore/"+req.params.id
             });
         }
-        return res.json({success: true});
+        Post.findByIdAndUpdate(req.params.id, {
+            $pull: {
+                comments: comment._id
+            }
+        }, function(err, post){
+            if(err){
+                console.log(err);
+            }
+            return res.json({success: true});
+        })
     });
 });
 

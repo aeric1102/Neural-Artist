@@ -10,8 +10,7 @@ var postSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        username: String,
-        avatar: String
+        username: String
     },
     comments: [
         {
