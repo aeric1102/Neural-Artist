@@ -1,6 +1,6 @@
 node_modules/
 seeds/
 .gitignore
-.env
-Procfile
-runtime.txt
+# .env
+# Procfile
+# runtime.txt
