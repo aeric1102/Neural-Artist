@@ -32,6 +32,11 @@
     opacity: 0;
     transform: translate(-50%, -50%);
 }
+
 .post-block:hover .centered-icon{
     opacity: 1;
+}
+
+.commentNum {
+    font-family: "Roboto", sans-serif;
 }

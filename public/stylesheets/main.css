@@ -6,7 +6,7 @@ html {
 body {
     padding-top: 96px;
     margin-bottom: 85px;
-    font-family: "Raleway", sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 #bottom-footer {
@@ -105,6 +105,24 @@ body {
     border-color: #024d86 !important;
 }
 
+
+.btn-outline-primary {
+    color: #2B5B80;
+    border-color: #2B5B80;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #114a76 !important;
+    border-color: #114a76 !important;
+}
+
+.btn-outline-primary:active {
+    color: #fff;
+    background-color: #024d86 !important;
+    border-color: #024d86 !important;
+}
+
 .btn-secondary {
     color: #fff;
     background-color: #91ABC2;
@@ -122,6 +140,7 @@ body {
     background-color: #5691c6 !important;
     border-color: #5691c6 !important;
 }
+
 
 #top_jumbotron {
     background: #2B5B80;  /* fallback for old browsers */

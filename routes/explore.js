@@ -12,15 +12,39 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+var nextPostCount = 18;
 router.get("/", function(req, res){
     req.session.current_url = req.originalUrl;
-    Post.find({}, null, {limit: 10000, sort: {"date": -1}}, function(err, posts){
+    Post.find({}, null, {limit: nextPostCount, sort: {"date": -1}}, function(err, posts){
         if(err){
             req.flash("error", "A server error occurred: Unable to find the page")
             console.log(err);
             return res.redirect("back");
         }
+        req.session.loaded_post_id = []
+        posts.forEach(function(post){
+            req.session.loaded_post_id.push(post._id);
+        });
         res.render("explore/index", {page: "explore", posts: posts});
+    })
+});
+
+router.get("/next", function(req, res){
+    if (!req.session.loaded_post_id){
+        return;
+    }
+    Post.find(
+        {"_id": {"$nin": req.session.loaded_post_id}}, 
+        null, {limit: nextPostCount, sort: {"date": -1}}, 
+        function(err, posts){
+            if(err){
+                console.log(err);
+                return res.json({"error": true});
+            }
+            posts.forEach(function(post){
+                req.session.loaded_post_id.push(post._id);
+            });
+            res.json(posts);
     })
 });
 
@@ -52,7 +76,6 @@ router.get("/new", function(req, res){
     // So, when the user goes to other pages, the data won't lose.
     // When the user post the data, it will be deleted.
     var post = req.flash("imgData")[0]
-    console.log(post);
     if (!post){
         if (typeof(req.session.post) !== "undefined" && req.session.post){
             res.render("explore/new", {page: "explore", post: req.session.post});

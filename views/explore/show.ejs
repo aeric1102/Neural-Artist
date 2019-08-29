@@ -22,15 +22,20 @@
                             <img class="avatar-md mr-2 rounded-circle" src="<%= post.author.id.avatar %>">
                         </a>
                         <div class="media-body">
-                            <h3 class="m-0">
+                            <h5 class="m-0">
                                 <a href="/users/<%= post.author.id._id %>">
                                     <%= post.author.username %>
                                 </a>    
-                            </h3>
+                            </h5>
                             <p class="m-0 small text-secondary">
                                 <%= moment(post.date).fromNow() %>
                             </p>
                         </div>
+                        <!-- use style image basename to locate scrollbar position-->
+                        <a href="/create?style=<%= post.selectStyle.split("/").pop().slice(0, -4) %>">
+                            <button class="d-none d-lg-block mt-n4 float-right btn btn-outline-primary mr-1">Try this style</button>
+                            <button class="d-block d-lg-none mt-n4 float-right btn btn-outline-primary mr-1">Try</button>
+                        </a>
                         <button id="change_view_btn" class="mt-n4 float-right btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
                     </div>
                     <p class="card-text">
@@ -78,7 +83,7 @@
                                         <div class="col-11 p-0">
                                             <p class="text-break"><%= comment.text %></p>
                                         </div>
-                                        <div class="col-1">
+                                        <div class="col-1 p-0">
                                             <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
                                                 <a href="/explore/<%= post._id %>/comments/<%= comment._id %>" class="deleteCommentBtn float-right">
                                                     <i class="far fa-trash-alt text-danger"></i>

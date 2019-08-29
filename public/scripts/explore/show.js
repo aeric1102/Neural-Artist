@@ -41,7 +41,7 @@ function submit_comment(){
                                 <div class="col-11 p-0">
                                     <p class="text-break">` + data.text + `</p>
                                 </div>
-                                <div class="col-1">
+                                <div class="col-1 p-0">
                                     <a href="/explore/` + data.post_id + `/comments/` + data._id + `" class="deleteCommentBtn float-right">
                                         <i class="far fa-trash-alt text-danger"></i>
                                     </a>

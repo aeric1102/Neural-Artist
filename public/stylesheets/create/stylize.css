@@ -58,3 +58,16 @@ body {
     opacity: 0;
 }
 
+
+
+.centered-icon {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    opacity: 0;
+    transform: translate(0%, 0%);
+}
+
+input:checked + label + h2 .centered-icon{
+    opacity: 1;
+}

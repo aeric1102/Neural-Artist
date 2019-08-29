@@ -16,7 +16,6 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header py-2 px-3 border-0">
-            <!-- <h5 class="modal-title" id="modalLabel"></h5> -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -34,23 +33,32 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <div class="row">
+            <div id="page_container" class="row">
                 <% posts.forEach(function(post){ %>
                     <div class="col-4 px-1 p-lg-1 px-lg-2">
                         <div class="m-0 container-square post-block">
                             <a class="post-link" href="/explore/<%= post._id %>">
                                 <img src="<%= post.resultImg %>" class="container-content">
-                                <h1><i class="centered-icon far fa-heart text-white"></i></h1>
+                                <h2><i class="d-none d-lg-block centered-icon far fa-comment text-white"> <span class="commentNum"><%= post.comments.length %></span></i></h2>
+                                <h6><i class="d-block d-lg-none centered-icon far fa-comment text-white"> <span class="commentNum"><%= post.comments.length %></span></i></h6>
                             </a>
                         </div>
                     </div>
                 <% }); %>
+            </div>
+            <div class="page-load-status text-center">
+                <p class="infinite-scroll-request">Loading...</p>
+                <p class="infinite-scroll-last">End of content</p>
+                <p class="infinite-scroll-error">No more pages to load</p>
             </div>
         </div>
     </div>
 </div>
 
 <% include ../partials/footer_element %>
+
+
+<script src="/scripts/infinite_scroll/infinite-scroll.pkgd.min.js"></script>
 <script src="/scripts/twentytwenty/jquery.event.move.js" type="text/javascript"></script>
 <script src="/scripts/twentytwenty/jquery.twentytwenty.js" type="text/javascript"></script>
 <script src="/scripts/explore/index.js" type="text/javascript"></script>

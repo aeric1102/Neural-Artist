@@ -30,10 +30,14 @@
                     <div class="style-block">
                         <div class="row m-0">
                             <% for(var i = 0; i < styleImgModelPath.length; i++){ %>
-                                <div class="col-6 p-2">
+                                <div class="style-block-col col-6 p-2">
                                     <div class="container-square">
-                                        <input class="selectStyle" type="radio" name="selectStyle" value="<%= i %>" id="styleImg_<%= i %>" required>
-                                        <label class="container-content" for="styleImg_<%= i %>" style="background-image: url(<%= styleImgModelPath[i].styleImg %>); background-size: cover"></label>
+                                        <% var styleImg = styleImgModelPath[i].styleImg %>
+                                        <% var checked = (typeof(showStyle) !== "undefined" && showStyle === styleImg.split("/").pop().slice(0, -4)) ? "checked" : "" %>
+                                        <input class="selectStyle" type="radio" name="selectStyle" value="<%= i %>" id="styleImg_<%= i %>" required <%= checked %>>
+                                        <label class="container-content" for="styleImg_<%= i %>" style="background-image: url(<%= styleImg %>); background-size: cover"></label>
+
+                                        <h2><i class="centered-icon fas fa-check text-white"></i></h2>
                                     </div>
                                 </div>
                             <% }  %>

@@ -16,7 +16,11 @@ cloudinary.config({
 
 router.get("/", function(req, res){
     req.session.current_url = req.originalUrl;
-    res.render("create/stylize", {page: "create", styleImgModelPath: styleImgModelPath});
+    res.render("create/stylize", {
+        page: "create", 
+        styleImgModelPath: styleImgModelPath, 
+        showStyle: req.query.style
+    });
 });
 
 router.post("/", upload.single("selectContent"), async function (req, res, next) {

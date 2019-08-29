@@ -15,3 +15,22 @@ $("#img_stylize_form").submit(function(){
 });
 
 $("#top_jumbotron p").html("Create Your Artwork");
+
+
+// document ready
+$(function(){
+    // scroll functions
+    $(window).scroll(function(e) {
+        $(".navbar")[$(window).scrollTop() >= 100 ? "addClass" : "removeClass"]("navbar-shrink");
+        $("#brand-title")[$(window).scrollTop() >= 100 ? "addClass" : "removeClass"]("brand-invisible");
+        $("#top_jumbotron")[$(window).scrollTop() >= 100 ? "addClass" : "removeClass"]("brand-invisible");
+    });
+});
+
+if($(".selectStyle:checked").length > 0){
+    //some style is selected through url query string
+    $(".style-block").animate({
+        scrollTop: $(".style-block-col").outerWidth()*Math.floor(parseInt($(".selectStyle:checked").val())/2)
+        }, 500, function(){
+    });
+}

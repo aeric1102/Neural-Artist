@@ -46,7 +46,8 @@
                     </div>
                     <div class="col-12 col-lg-7 ml-lg-4 p-0">
                         <% if (user.name){ %>
-                            <h3 class="text-break"><%= user.name %></h3>
+                            <h3 class="text-break d-none d-lg-block"><%= user.name %></h3>
+                            <h6 class="text-break d-block d-lg-none"><%= user.name %></h3>
                         <% } %>
                         
                         <div>
@@ -72,7 +73,8 @@
                         <div class="m-0 container-square post-block">
                             <a class="post-link" href="/explore/<%= post._id %>">
                                 <img src="<%= post.resultImg %>" class="container-content">
-                                <h1><i class="centered-icon far fa-heart text-white"></i></h1>
+                                <h2><i class="d-none d-lg-block centered-icon far fa-comment text-white"> <span class="commentNum"><%= post.comments.length %></span></i></h2>
+                                <h6><i class="d-block d-lg-none centered-icon far fa-comment text-white"> <span class="commentNum"><%= post.comments.length %></span></i></h6>
                             </a>
                         </div>
                     </div>
@@ -85,6 +87,6 @@
 <% include ../partials/footer_element %>
 <script src="/scripts/twentytwenty/jquery.event.move.js" type="text/javascript"></script>
 <script src="/scripts/twentytwenty/jquery.twentytwenty.js" type="text/javascript"></script>
-<script src="/scripts/explore/index.js" type="text/javascript"></script>
+<script src="/scripts/users/show.js" type="text/javascript"></script>
 </body>
 </html>
