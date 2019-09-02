@@ -19,7 +19,7 @@ $("#selectContent").change(function(){
             cropper = new Cropper(document.getElementById("contentImg"), {
                 aspectRatio: 16 / 9,
                 autoCropArea: 1.0,
-                moveable: false
+                zoomable: false
             });
         },
         {orientation:true}
