@@ -17,8 +17,11 @@ $("#selectContent").change(function(){
                 cropper.destroy();
             }
             cropper = new Cropper(document.getElementById("contentImg"), {
-              aspectRatio: 16 / 9,
-              zoomable: false
+                aspectRatio: 16 / 9,
+                autoCropArea: 1.0,
+                zoomable: false,
+                movable: false,
+                background:false 
             });
         },
         {orientation:true}
