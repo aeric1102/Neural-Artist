@@ -11,7 +11,7 @@ var express = require("express"),
 // user profile
 router.get("/", function(req, res){
     User.findById(req.params.id, function(err, user){
-        if(err){
+        if(err || !user){
             req.flash("error", "A server error occurred: Unable to find the page")
             console.log(err);
             return res.redirect("back");
@@ -29,7 +29,7 @@ router.get("/", function(req, res){
 
 router.get("/edit", middleware.checkProfileOwnership, function(req, res){
     User.findById(req.params.id, function(err, user){
-        if(err){
+        if(err || !user){
             req.flash("error", "A server error occurred: Unable to find the page")
             console.log(err);
             return res.redirect("back");
@@ -54,7 +54,7 @@ router.put("/", middleware.checkProfileOwnership,
     }
     // process image file, then update database
     var filename = await convertImage(req.file.path);
-    var filepath = "./public/data/contents/" + filename;
+    var filepath = "./public/data/" + filename;
     cloudinary.uploader.upload(filepath, 
                                {folder: "neuralartist/avatar/"}, 
                                function(err, result){

@@ -93,20 +93,22 @@ router.get("/new", function(req, res){
 
 router.get("/:id", function(req, res){
     req.session.current_url = req.originalUrl;
-    Post.findById(req.params.id).
-        populate("author.id", "avatar").
-        populate({
+    Post.findById(req.params.id)
+        .populate("author.id", "avatar")
+        .populate({
             path: "comments",
             options: {sort: {"date": -1}},
             populate: {
                 path: "author.id", 
                 select: "avatar"
             }
-        }).
-        exec(function(err, post){
-            if(err){
+        })
+        .exec(function(err, post){
+            if(err || !post){
+                if(err){
+                    console.log(err);
+                }
                 req.flash("error", "A server error occurred: Unable to find the page")
-                console.log(err);
                 return res.redirect("/explore");
             }
             res.render("explore/show", {page: "explore", post: post});
@@ -115,7 +117,10 @@ router.get("/:id", function(req, res){
 
 router.get("/:id/edit", middleware.checkPostOwnership, function(req, res){
     Post.findById(req.params.id, function(err, post){
-        if(err){
+        if(err || !post){
+            if(err){
+                console.log(err);
+            }
             req.flash("error", "A server error occurred: Unable to find the page")
             return res.redirect("/explore");
         }

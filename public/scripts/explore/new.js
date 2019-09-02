@@ -8,7 +8,7 @@ $("#description_input").on("input", function(e) {
 });
 
 $(function(){
-    $(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5, no_overlay: true});
+    $(".twentytwenty-container").twentytwenty({default_offset_pct: 0.9, no_overlay: true});
 });
 
 var slider_view = true;

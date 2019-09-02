@@ -41,3 +41,34 @@
 #comment_input {
     margin-right: 50px;
 }
+
+.badge {
+    margin-top: -28px;
+    padding: 3px 5px 2px 5px;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #4267B2;
+    border-color: #4267B2;
+}
+
+.badge-primary:hover {
+    color: #fff;
+    background-color: #365899;
+    border-color: #365899;
+}
+
+.badge-primary:active {
+    color: #fff;
+    background-color: #577fbc;
+    border-color: #577fbc;
+}
+
+.facebook-share-btn {
+    font-size: 14px;
+}
+
+.facebook-share-text {
+   font-size: 11px;
+}

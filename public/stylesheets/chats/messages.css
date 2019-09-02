@@ -1,0 +1,29 @@
+body {
+    padding-top: 78px;
+    margin-bottom: 0;
+}
+
+.receive_cotainer {
+    display:inline-block;
+    background-color: #ebebeb;
+    border-radius: 25px;
+}
+
+.send_cotainer {
+    display:inline-block;
+    background-color: #3e7de4;
+    color: white;
+    border-radius: 25px;
+}
+
+.time_container {
+    /*position: relative;*/
+    top: 10px;
+}
+
+#message_container {
+    height: calc(100vh - 143px);
+    overflow: auto;
+}
+
+

@@ -27,8 +27,7 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
     var st = new Date();
     if (req.file == null){ // invalid file
         req.flash("error", "Only images (jpg or png) are allowed!");
-        res.redirect("/create");
-        return
+        return res.json({redirect: "/create"});
     }
     var model_num = parseInt(req.body.selectStyle);
     var selectModel = styleImgModelPath[model_num].modelPath;
@@ -38,13 +37,13 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
     } catch(err){
         if (err === "System is busy, please try again later!"){
             req.flash("error", err);
-            res.redirect("/create");
+            res.json({redirect: "/create"});
         }
         else{
             // Perhaps, Jimp error or python process error
             req.flash("error", "A server error occurred: Unable to process your data")
             console.log(err);
-            res.redirect("/create");
+            res.json({redirect: "/create"});
         }
         return;
     }
@@ -60,7 +59,7 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
         if(err){
             req.flash("error", "A server error occurred: Unable to process your data")
             console.log(err);
-            return res.redirect("/create");
+            return res.json({redirect: "/create"});
         }
         imgData.contentImg = result.secure_url
         fs.unlink(contentImg, err => {
@@ -73,7 +72,7 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
                 if(err){
                     req.flash("error", "A server error occurred: Unable to process your data")
                     console.log(err);
-                    return res.redirect("/create");
+                    return res.json({redirect: "/create"});
                 }
                 imgData.resultImg = result.secure_url
                 fs.unlink(resultImg, err => {
@@ -84,7 +83,7 @@ router.post("/", upload.single("selectContent"), async function (req, res, next)
                 req.flash("imgData", imgData)
                 var requestTime = Math.round((new Date()-st)*1000) / 1000000;
                 console.log("Success. Request Time: " + requestTime);
-                res.redirect("/explore/new");
+                res.json({redirect: "/explore/new"});
         });
     });
 })

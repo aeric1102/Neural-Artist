@@ -1,6 +1,9 @@
 node_modules/
 seeds/
 .gitignore
-# .env
-# Procfile
-# runtime.txt
+README
+
+.env
+Procfile
+runtime.txt
+transform/models/

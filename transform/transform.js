@@ -58,7 +58,7 @@ async function transformImage(filePath, selectModel){
     }
     
     var client = new net.Socket();
-    client.connect(port, '127.0.0.1', function() {
+    client.connect(port, "127.0.0.1", function() {
         console.log("Start transform");
         var pyInput = (
             selectModel + "$" +
@@ -67,17 +67,24 @@ async function transformImage(filePath, selectModel){
         )
         client.write(pyInput);
     });
-    client.on('data', function(data) {
-        console.log(data.toString('ascii'));
-        client.destroy(); // kill client after server's response
-    });
+    var dataReceived = false;
     var promise = new Promise((resolve, reject) => {
-        client.on('error', function(data) {
+        client.on("data", function(data) {
+            console.log(data.toString('ascii'));
+            dataReceived = true;
+            resolve(imgData);
+            client.destroy(); // kill client after server's response
+        });
+        client.on("error", function(data) {
             console.log("Connection Refused");
             reject("System is busy, please try again later!");
         });
-        client.on('close', function() {
-            resolve(imgData)
+        client.on("close", function() {
+            if(!dataReceived){
+                // reject when connection closes without receiving data.
+                console.log("Connection Refused");
+                reject("System is busy, please try again later!");
+            }
         });
     })
     return promise
@@ -85,7 +92,7 @@ async function transformImage(filePath, selectModel){
 
 function createPythonProcess(){
     const spawn = require("child_process").spawn;
-    const transform = spawn("python", ["./transform/transform.py"]);
+    const transform = spawn("python3", ["./transform/transform.py"]);
     var promise = new Promise((resolve, reject) => {
         transform.stdout.on("data", function(data){
             console.log(data.toString());
@@ -99,6 +106,13 @@ function createPythonProcess(){
         transform.on("close", function(code){
             console.log("python process exit with " + code);
             reject(new Error("python process exit with " + code));
+            //when python exits, recreate a python process
+            createPythonPromise.then(data => {
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            createPythonPromise = createPythonProcess();
         });
     });
     return promise

@@ -4,10 +4,15 @@
     <% include ../partials/header_element %>
     <link rel="stylesheet" href="/stylesheets/twentytwenty/twentytwenty.css" type="text/css" media="screen">
     <link href="/stylesheets/explore/show.css" rel="stylesheet" type="text/css">
+    <meta property="og:url" content="http://www.neuralartist.com/explore/<%= post._id %>">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Neural Artist">
+    <meta property="og:image" content="<%= post.resultImg %>">
 </head>
 <body>
 <% include ../partials/navbar %>
 <div id="show_wrapper">
+
 
 <div class="container">
     <div class="row justify-content-center">
@@ -17,7 +22,7 @@
             <div id="show_card" class="card border border-top-0 rounded-0">
                 <div class="card-body pb-0">
                     <!-- Post, image description -->
-                    <div class="media card-title d-flex align-items-center">
+                    <div class="media card-title d-flex align-items-center mb-3">
                         <a href="/users/<%= post.author.id._id %>">
                             <img class="avatar-md mr-2 rounded-circle" src="<%= post.author.id.avatar %>">
                         </a>
@@ -38,6 +43,7 @@
                         </a>
                         <button id="change_view_btn" class="mt-n4 float-right btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
                     </div>
+                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.neuralartist.com/explore/<%= post._id %>%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><span class="float-right badge badge-primary"><h6 class="facebook-share-btn d-inline"><i class="fab fa-facebook-square"></h6></i><p class="facebook-share-text d-inline"> Share</p></span></a>
                     <p class="card-text">
                         <%= post.description %> 
                     </p>

@@ -2,6 +2,7 @@
 <html>
 <head>
     <% include ../partials/header_element %>
+    <link href="/stylesheets/cropper/cropper.css" rel="stylesheet" type="text/css">
     <link href="/stylesheets/create/stylize.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -12,17 +13,17 @@
         <div class="form-row">
             <div class="form-group col-lg-6 mb-3 mb-lg-0">
                 <div class="card">
-                    <label for="selectContent">
-                        <div class="card-body p-0">
-                            <div class="container-16-9">
-                                <img id="contentImg" src="/stylesheets/image-placeholder.jpg" class="container-content card-img-top">
-                            </div>
+                    <div class="card-body p-0">
+                        <div class="container-16-9">
+                            <img id="contentImg" src="/stylesheets/image-placeholder.jpg" class="container-content card-img-top">
+                        </div>
+                        <label for="selectContent" class="w-100">
                             <div class="btn btn-secondary btn-block">
                                 Choose File
                                 <input class="form-control" type="file" name="selectContent" id="selectContent" accept="image/*" required>
                             </div>
-                        </div>
-                    </label>
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="form-group col-lg-6 mt-3 mt-lg-0">
@@ -59,6 +60,7 @@
 
 <% include ../partials/footer_element %>
 <script src="/scripts/js_load_image/load-image.all.min.js"></script>
+<script src="/scripts/cropper/cropper.js" type="text/javascript"></script>
 <script src="/scripts/create/stylize.js" type="text/javascript"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ html {
 
 body {
     padding-top: 96px;
-    margin-bottom: 85px;
+    margin-bottom: 50px;
     font-family: "Roboto", sans-serif;
 }
 
@@ -14,6 +14,7 @@ body {
     left: 0;
     bottom: 0;
     width: 100%;
+    font-size: 0.8rem;
 }
 
 /* Let navbar shink when scrolling */
@@ -141,6 +142,9 @@ body {
     border-color: #5691c6 !important;
 }
 
+.fb-xfbml-parse-ignore {
+    color: #fff !important;
+}
 
 #top_jumbotron {
     background: #2B5B80;  /* fallback for old browsers */

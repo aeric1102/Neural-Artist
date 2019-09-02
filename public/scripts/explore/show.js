@@ -5,7 +5,7 @@ function submit_comment(){
     newCommentSubmitted = true;
     var text = $("#comment_input").val();
     if (!(/\S/.test(text))){
-        // found something other than a space or line break
+        // empty text
         newCommentSubmitted = false;
         return;
     }
