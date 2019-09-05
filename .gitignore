@@ -6,4 +6,4 @@ README
 .env
 Procfile
 runtime.txt
-transform/models/
+transform/models/*
