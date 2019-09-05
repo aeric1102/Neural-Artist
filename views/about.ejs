@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./partials/header_element %>
+    <link href="/stylesheets/about.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<% include ./partials/navbar %>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-6">
+            <div>
+                <h4 class="text-center">
+                    Mission
+                </h4>
+                <p>
+                    Neural Artists' mission is to give people the power to create their own artworks and share the results and their feeling with the community in a totally free way.  In create section, You just need to upload your picture and choose a style, the server will transform your picture into an artistc image. After transformation, you can write a post about your image, or even share your post to Facebook. Furthermore, you can also chat with everyone online in the chat room.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-center">
+                    Method
+                </h4>
+                <p>
+                    The image transformation is achieved by feed-forward Convolutional Neural Network. The algorihm is based on <a href="https://arxiv.org/abs/1603.08155">Johnson's Perceptual Losses for Real-Time Style Transfer and Super-Resolution</a>, and the implementation is modified from <a href="https://github.com/lengstrom/fast-style-transfer">lengstrom's work</a> with optimization in deployment. The training dataset is from <a href="http://cocodataset.org/">Microsoft coco train2014</a>. Some style images are from <a href="https://unsplash.com">unsplash</a>, while others are from modern artists or historical artists. For illustrative purposes, some post data are from <a href="https://github.com/marak/Faker.js/">Node.js faker</a> and coco dataset.
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+            <ul id="slideshow1" class="slideshow">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="mt-5 mb-5">
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        <img src="https://res.cloudinary.com/artisticcloud/image/upload/v1567544688/neuralartist/assets/xlzdney0n9sisrh6efvx.jpg" class="text-center img-responsive rounded-circle">
+                    </div>
+                    <div class="col-8">
+                        <h4>
+                            Author
+                        </h4>
+                        <p>
+                            I'm Chun-Yi Tu, a graduate student at UC San Diego. If you have questions, please let me know.
+                            <ul class="list-unstyled d-none d-lg-block">
+                                <li>
+                                    <i class="fab fa-linkedin"></i> LinkedIn:
+                                    <a href="https://www.linkedin.com/in/chunyi-tu">
+                                        www.linkedin.com/in/chunyi-tu
+                                    </a>
+                                </li>
+                                <li>
+                                    <i class="far fa-envelope"></i> Email:
+                                    <a href = "mailto: eric.cytu@gmail.com">
+                                        eric.cytu@gmail.com
+                                    </a>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <ul class="list-unstyled d-block d-lg-none">
+                    <li>
+                        <i class="fab fa-linkedin"></i> LinkedIn:
+                        <a href="https://www.linkedin.com/in/chunyi-tu">
+                            www.linkedin.com/in/chunyi-tu
+                        </a>
+                    </li>
+                    <li>
+                        <i class="far fa-envelope"></i> Email:
+                        <a href = "mailto: eric.cytu@gmail.com">
+                            eric.cytu@gmail.com
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<% include ./partials/footer %>
+<script type="text/javascript">
+    $("#top_jumbotron p").text("Welcome to Neural Artist")
+</script>
+
+
+

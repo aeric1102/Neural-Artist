@@ -44,4 +44,8 @@ router.get("/logout", function(req, res){
     res.redirect(req.session.current_url || '/');
 });
 
+router.get("/about", function(req, res){
+    res.render("about", {page: "about"});
+});
+
 module.exports = router;
