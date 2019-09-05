@@ -1,9 +1,0 @@
-node_modules/
-seeds/
-.gitignore
-README
-
-.env
-Procfile
-runtime.txt
-transform/models/*
